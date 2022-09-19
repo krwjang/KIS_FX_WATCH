@@ -105,5 +105,13 @@ st.plotly_chart(fig_1, use_container_width=True)
 
 
 
+#-------------------------------------------------------------------------------
 ## 푸터
-st.markdown(" **Tel:** 02-3276-5587 **| E-mail:** mailto:112918@koreainvestment.com")
+st.write("# ")
+expander = st.expander("About")
+expander.markdown("""
+이 화면의 데이터는 서울외국환중개에서 가져옴   
+
+**Tel:** 02-3276-5587 **| E-mail:** 112918@koreainvestment.com   
+한국투자증권 패시브솔루션영업부 장 백 차장 a.k.a. 킬리만자로의 표범
+""")
