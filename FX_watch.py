@@ -59,6 +59,8 @@ st.write("""
 """)
 
 fig_1 = fx.plot.line()
+fig_1.layout.yaxis.tickformat = ',.1%'
+
 st.plotly_chart(fig_1)
 
 
@@ -90,6 +92,7 @@ chg_fx.columns = ["1d", "20d", "60d"]
 chg_fx.sort_values(by="60d", ascending=True, inplace=True)
 
 fig_2 = chg_fx.plot.bar(barmode='group')
+fig_2.layout.yaxis.tickformat = ',.1%'
 st.plotly_chart(fig_2)
 
 

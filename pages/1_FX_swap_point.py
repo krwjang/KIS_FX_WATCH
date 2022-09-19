@@ -146,6 +146,9 @@ fig.update_traces(
     )
 )
 fig.layout.yaxis.tickformat = ',.1f'
+fig.update_traces(hovertemplate=None)
+fig.update_layout(hovermode="x unified")
+fig.update_layout(height=600)
 
 st.plotly_chart(fig, use_container_width=True)
 
