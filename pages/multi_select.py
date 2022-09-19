@@ -12,7 +12,7 @@ st.write("# 통화별 상대강도 비교")
 ## 사이드바
 st.sidebar.header("종목, 날짜 지정")
 
-name = st.sidebar.multiselect("종목", ['KRW=X','JPY=X', "EUR=X", "CNY=X", "AUD=X", "CHF=X", "DX-Y.NYB"], 'USDKRW=X')
+name = st.sidebar.multiselect("종목", ['KRW=X','JPY=X', "EUR=X", "CNY=X", "AUD=X", "CHF=X", "DX-Y.NYB"], 'KRW=X')
 
 now = datetime.now().date()
 ago = now - timedelta(weeks=12)
