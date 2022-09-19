@@ -17,7 +17,7 @@ name = st.sidebar.multiselect("종목", ['KRW=X','JPY=X', "EUR=X", "CNY=X", "AUD
 now = datetime.now().date()
 ago = now - timedelta(weeks=12)
 start_date = st.sidebar.date_input("시작 날짜", ago)
-end_date = st.sidebar.date_input("끝 날짜", now)
+end_date = st.sidebar.date_input("끝 날짜", now) + timedelta(days=1)
 
 
 ### 데이터 로딩
