@@ -11,7 +11,7 @@ st.write("# 환율을 읽어옵니다")
 ## 사이드바
 st.sidebar.header("종목, 날짜 지정")
 
-name = st.sidebar.selectbox("종목", ['USDKRW=X','JPY=X', "EUR=X", "CNY=X", "AUD=X", "CHF=X", "DX-Y.NYB"])
+name = st.sidebar.selectbox("종목", ['KRW=X','JPY=X', "EUR=X", "CNY=X", "AUD=X", "CHF=X", "DX-Y.NYB"])
 
 now = datetime.now().date()
 ago = now - timedelta(weeks=12)
