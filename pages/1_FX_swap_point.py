@@ -114,7 +114,7 @@ col5.metric("1년물", f"{last_sp_1y}원", round(mid["1M"].iloc[-1] - mid["1M"].
 
 ## 플로팅 
 st.write("# ")
-st.write("## 기물별 스왑포인트 상세 ")
+st.write("### 기물별 스왑포인트 상세 ")
 
 bid = pd.concat([df1["Bid"], df2["Bid"], df3["Bid"], df6["Bid"],  df12["Bid"]], axis=1)
 bid.columns = ["1M", "2M", "3M", "6M", "1Y"]
@@ -154,4 +154,10 @@ st.plotly_chart(fig, use_container_width=True)
 #-------------------------------------------------------------------------------
 ## 푸터
 st.write("# ")
-st.markdown(" **Tel:** 02-3276-5587 **| E-mail:** mailto:112918@koreainvestment.com")
+expander = st.expander("About")
+expander.markdown("""
+이 화면의 데이터는 서울외국환중개에서 가져옴   
+
+**Tel:** 02-3276-5587 **| E-mail:** 112918@koreainvestment.com   
+한국투자증권 패시브솔루션영업부 장 백 차장 a.k.a. 킬리만자로의 표범
+""")
