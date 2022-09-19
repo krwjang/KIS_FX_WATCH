@@ -5,6 +5,7 @@ Created on 2022
 """
 import streamlit as st
 import pandas as pd
+import yfinance as yf
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
