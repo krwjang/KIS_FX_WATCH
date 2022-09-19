@@ -34,7 +34,7 @@ year = st.title("KIS FX watch")
 
 ## 사이드바
 st.sidebar.header("불러올 데이터 기간(년)")
-st.sidbar.slider("기간 설정", min_value=1, max_value=10, value=1, step = 1)
+st.sidebar.slider("기간 설정", min_value=1, max_value=10, value=1, step = 1)
 
 
 
