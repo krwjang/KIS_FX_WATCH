@@ -31,65 +31,29 @@ st.title("KIS FX watch")
 
 #--------------------------------------------------------------------------------------------------------------
 
+st.write("# 통화별 상대강도 비교")
+
+
 ## 사이드바
-st.sidebar.header("비교 날짜 지정")
+st.sidebar.header("종목, 날짜 지정")
+
+name = st.sidebar.multiselect("종목", ['KRW=X','JPY=X', "EUR=X", "CNY=X", "AUD=X", "CHF=X", "DX-Y.NYB"], 'KRW=X')
 
 now = datetime.now().date()
 ago = now - timedelta(weeks=12)
 start_date = st.sidebar.date_input("시작 날짜", ago)
-end_date = st.sidebar.date_input("끝 날짜", now)
+end_date = st.sidebar.date_input("끝 날짜", now) + timedelta(days=1)
 
 
+### 데이터 로딩
 
-## 데이터 로드
-@st.cache
-def get_fxs(year=1):
-    fx_list = [
-        ["USD/KRW", "USD/KRW"],
-        ["USD/AUD", "USD/AUD"],
-        ["USD/CNY", "USD/CNH"],
-        ["USD/EUR", "USD/EUR"],
-        # ["USD/GBP", "USD/GBP"],
-        # ["USD/CAD", "USD/CAD"],
-        ["USD/JPY", "USD/JPY"],
-        ["USD/CHF", "USD/CHF"]
-        # ["DollarIdx", "DX"]
-    ]
+data = yf.download(name , start=start_date, end=end_date)
 
-    # years = 365 * year
-    # now = pd.to_datetime(datetime.now())
-    # today = now.strftime(format="%Y-%m-%d")
-    # ago = now - pd.Timedelta(days=years)
-    # ago = ago.strftime(format="%Y-%m-%d")
+fx = data["Close"] / data["Close"].iloc[0] -1
 
-    df_list = [fdr.DataReader(code, start=start_date, end=end_date)['Close'] for name, code in fx_list]
-    df = pd.concat(df_list, axis=1)
-    df.columns = [name for name, code in fx_list]
+fig = fx.plot.line()
 
-    return df
-
-df = get_fxs(0.5)
-
-df_compare = df / df.iloc[0] - 1
-
-
-
-
-
-
-## 플로팅
-st.markdown("### ")
-st.markdown("### 주요 통화별 %Chg. 상대 비교")
-# st.markdown("* 상승=약세 / 하락=강세")
-# st.markdown("* 기간 : 6개월")
-
-fig_1 = df_compare.plot(kind="line")
-fig_1.layout.yaxis.tickformat = ',.1%'
-fig_1.update_traces(hovertemplate=None)
-fig_1.update_layout(hovermode="x unified")
-fig_1.update_layout(height=500)
-
-st.plotly_chart(fig_1, use_container_width=True)
+st.plotly_chart(fig)
 
 
 
