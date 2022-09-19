@@ -6,10 +6,10 @@ Created on 2022
 import streamlit as st
 import pandas as pd
 import yfinance as yf
-import requests
-from bs4 import BeautifulSoup
+# import requests
+# from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
-import FinanceDataReader as fdr
+# import FinanceDataReader as fdr
 
 # 판다스 플로팅 백앤드로 plotly 사용
 pd.options.plotting.backend = "plotly"
@@ -32,7 +32,7 @@ st.title("KIS FX watch")
 
 #--------------------------------------------------------------------------------------------------------------
 
-st.write("## 통화별 상대강도 비교")
+st.write("### 통화별 상대강도 비교")
 
 
 ## 사이드바
@@ -63,3 +63,4 @@ st.plotly_chart(fig)
 
 ## 푸터
 st.markdown(" **Tel:** 02-3276-5587 **| E-mail:** mailto:112918@koreainvestment.com")
+st.markdown(" 한국투자증권 패시브솔루션영업부 장 백 차장 a.k.a. 킬리만자로의 표범")
