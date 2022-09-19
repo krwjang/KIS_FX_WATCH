@@ -27,9 +27,16 @@ st.set_page_config(
 
 ## 헤더부분
 # st.image('image/img_signature.png', width=100)
-st.title("KIS FX watch")
+year = st.title("KIS FX watch")
 
 #--------------------------------------------------------------------------------------------------------------
+## 사이드바
+
+## 사이드바
+st.sidebar.header("불러올 데이터 기간(년)")
+st.sidbar.slider("기간 설정", min_value=1, max_value=10, value=1, step = 1)
+
+
 
 ## 데이터 로드
 @st.cache
@@ -76,7 +83,6 @@ def get_fxswap(exp="1M", year=1):
     return df
 
 
-year = 1
 
 df1 = get_fxswap(exp="1M", year=year)
 df2 = get_fxswap(exp="2M", year=year)
@@ -92,10 +98,12 @@ mid.columns = ["1M", "2M", "3M", "6M", "1Y"]
 
 ## 플로팅
 st.markdown("# ")
-# st.markdown("* 상승=약세 / 하락=강세")
-# st.markdown("* 기간 : 6개월")
+st.write("""
+### 스왑포인트 일별 추이    
+기물별 스왑포인트 종가 (단위:원)
+""")
 
-fig_1 = mid.plot(kind="area", title="스왑포인트 일별추이 (기물별, 단위:원)")
+fig_1 = mid.plot(kind="area")
 fig_1.update_traces(hovertemplate=None)
 fig_1.update_layout(hovermode="x unified")
 fig_1.layout.yaxis.tickformat = ',.2f'
