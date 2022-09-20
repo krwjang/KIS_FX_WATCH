@@ -28,7 +28,7 @@ st.set_page_config(
 
 ## 헤더부분
 # st.image('image/img_signature.png', width=100)
-st.title("KIS FX watch")
+st.title("KIS FX Watch  :leopard:")
 
 #--------------------------------------------------------------------------------------------------------------
 
@@ -123,8 +123,9 @@ st.components.v1.iframe(url_cal, width=None, height=400, scrolling=True)
 st.write("# ")
 expander = st.expander("About")
 expander.markdown("""
-이 화면의 데이터는 Yahoo Finance로 부터 가져오며 티커명 역시 Yahoo Finance 참조   
-
+본 화면의 데이터는 Yahoo Finance 및 Investing.com로 부터 가져오며 티커은 Yahoo Finance 참조   
+CFD 시세가 사용되므로 국내 현물환율과 미미한 차이가 발생할 수 있음
+#
 **Tel:** 02-0000-0000 **| E-mail:** krwjang@gmail.com   
 --------부 장 백 차장 a.k.a. 킬리만자로의 표범
 """)
