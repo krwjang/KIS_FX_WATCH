@@ -55,7 +55,7 @@ fx = data["Close"] / data["Close"].iloc[0] -1
 
 st.write("""
 ### 환율 변동추이 비교(%)   
-하락시 달러대비 해당통화 강세 / 상승시 해당통화 약세
+하락: 달러대비 해당통화 강세 / 상승: 해당통화 약세 / DX는 달러인덱스
 """)
 
 fig_1 = fx.plot.line()
@@ -107,6 +107,7 @@ st.components.v1.iframe(url_live, width=None, height=300, scrolling=True)
 
 
 ## 경제 캘린더
+st.write("# ")
 st.write("# ")
 st.write("""
 ### 경제 캘린더
