@@ -38,7 +38,7 @@ st.title("KIS FX Watch  :leopard:")
 def get_fxswap(exp="1M", year=1):
     '''만기, 기간(연) 입력하여 개별 스왑포인트 불러오기'''
     years = 365 * year
-    now = pd.to_datetime(datetime.now()) + timedelta(days=1)
+    now = pd.to_datetime(datetime.now()) + timedelta(days=2)
     today = now.strftime(format="%Y-%m-%d")
     ago = now - pd.Timedelta(days=years)
     ago = ago.strftime(format="%Y-%m-%d")
