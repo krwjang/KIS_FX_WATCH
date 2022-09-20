@@ -5,10 +5,11 @@ Created on 2022
 """
 import streamlit as st
 import pandas as pd
+# import yfinance as yf
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
-import FinanceDataReader as fdr
+# import FinanceDataReader as fdr
 
 # 판다스 플로팅 백앤드로 plotly 사용
 pd.options.plotting.backend = "plotly"
@@ -27,10 +28,9 @@ st.set_page_config(
 
 ## 헤더부분
 # st.image('image/img_signature.png', width=100)
-st.title("KIS FX watch")
+st.title("KIS FX Watch  :leopard:")
 
 #--------------------------------------------------------------------------------------------------------------
-## 사이드바
 
 ## 사이드바
 st.sidebar.header("불러올 데이터 기간(년)")
@@ -97,7 +97,7 @@ mid.columns = ["1M", "2M", "3M", "6M", "1Y"]
 
 
 ## 플로팅
-st.markdown("# ")
+# st.markdown("# ")
 st.write("""
 ### 스왑포인트 일별 추이    
 기물별 스왑포인트 종가 (단위:원)
@@ -118,8 +118,9 @@ st.plotly_chart(fig_1, use_container_width=True)
 st.write("# ")
 expander = st.expander("About")
 expander.markdown("""
-이 화면의 데이터는 Yahoo Finance로 부터 가져오며 티커명 역시 Yahoo Finance 참조   
+본 화면은 서울외국환중개 홈페이지의 데이터를 사용함
+
 
 **Tel:** 02-0000-0000 **| E-mail:** krwjang@gmail.com   
---------부 장 백 차장 a.k.a. 킬리만자로의 표범
+---솔루션영업부 장 백 차장 a.k.a. 킬리만자로의 표범
 """)

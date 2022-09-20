@@ -32,9 +32,15 @@ st.title("KIS FX Watch  :leopard:")
 
 #--------------------------------------------------------------------------------------------------------------
 
+## 사이드바
+st.sidebar.header("불러올 데이터 기간(년)")
+year = st.sidebar.slider("기간 설정", 1, 10, 1)
+
+
+
 ## 데이터 로드
-@st.cache
 # 개별 스왑포인트 크롤링 함수
+@st.cache
 def get_fxswap(exp="1M", year=1):
     '''만기, 기간(연) 입력하여 개별 스왑포인트 불러오기'''
     years = 365 * year
@@ -77,7 +83,6 @@ def get_fxswap(exp="1M", year=1):
     return df
 
 
-year = 1
 
 df1 = get_fxswap(exp="1M", year=year)
 df2 = get_fxswap(exp="2M", year=year)
@@ -89,70 +94,50 @@ mid = pd.concat([df1["Mid"], df2["Mid"], df3["Mid"], df6["Mid"],  df12["Mid"]], 
 mid.columns = ["1M", "2M", "3M", "6M", "1Y"]
 
 
-#-------------------------------------------------------------------------------
+## 플로팅
+# st.markdown("# ")
+st.write("""
+### 기물별 스왑포인트 1개월 기준 환산    
+* 단기가 저렴한지 장기가 저렴한지 비교하기 위한 목적   
+* 대부분의 기간에서는 만기가 짧은 순으로 가격이 높음 → 매도 헤지 비용이 낮음
+* 단 위기상황에서 달러 단기자금 수요가 폭발하게 되면 장단기 스왑포인트 역전 → 단기물 매도 헤지 비용이 더 높음
+""")
 
-## 전광판 매트릭스
-sp_date = datetime.date(mid.index[-1])
-st.markdown(f"### FX스왑포인트 종가 기준, 중간값(Mid) - {sp_date}")
+trans = pd.DataFrame()
+trans["1M"] = mid["1M"]
+trans["2M"] = mid["2M"] / 2
+trans["3M"] = mid["3M"] / 3
+trans["6M"] = mid["6M"] / 6
+trans["1Y"] = mid["1Y"] / 12
+
+fig_1 = trans.plot.line()
+st.plotly_chart(fig_1)
+
+
 st.markdown("# ")
+st.write("""
+### 기물별 1개월당 스왑포인트 기술통계  
+* 평균, 표준편차, 최소값, 25%값, 50%값, 75%값, 최대값 (단위: 원)   
+* 장기 거래시 평균에 수렴하므로 매도헷지는 평균 스왑포인트가 높은 단기물이 유리
+* 예) 1개월물 평균 가격이 6개월물보다 0.5원 높다면, 장기적으로 매달 평균 50전 유리하며 연간 6원 세이브
+""")
 
-col1, col2, col3, col4, col5, = st.columns(5)
-
-last_sp_1m = mid["1M"].iloc[-1]
-last_sp_2m = mid["2M"].iloc[-1]
-last_sp_3m = mid["3M"].iloc[-1]
-last_sp_6m = mid["6M"].iloc[-1]
-last_sp_1y = mid["1Y"].iloc[-1]
-
-
-col1.metric("1개월물", f"{last_sp_1m}원", round(mid["1M"].iloc[-1] - mid["1M"].iloc[-2], ndigits=3))
-col2.metric("2개월물", f"{last_sp_2m}원", round(mid["1M"].iloc[-1] - mid["1M"].iloc[-2], ndigits=3))
-col3.metric("3개월물", f"{last_sp_3m}원", round(mid["1M"].iloc[-1] - mid["1M"].iloc[-2], ndigits=3))
-col4.metric("6개월물", f"{last_sp_6m}원", round(mid["1M"].iloc[-1] - mid["1M"].iloc[-2], ndigits=3))
-col5.metric("1년물", f"{last_sp_1y}원", round(mid["1M"].iloc[-1] - mid["1M"].iloc[-2], ndigits=3))
+dataframe = trans.describe().T[["mean", "std", "min", "25%", "50%", "75%", "max"]]
+st.dataframe(dataframe)
 
 
 
-## 플로팅 
-st.write("# ")
-st.write("# ")
-st.write("### 기물별 스왑포인트 상세 ")
 
-bid = pd.concat([df1["Bid"], df2["Bid"], df3["Bid"], df6["Bid"],  df12["Bid"]], axis=1)
-bid.columns = ["1M", "2M", "3M", "6M", "1Y"]
-
-mid = pd.concat([df1["Mid"], df2["Mid"], df3["Mid"], df6["Mid"],  df12["Mid"]], axis=1)
-mid.columns = ["1M", "2M", "3M", "6M", "1Y"]
-
-offer = pd.concat([df1["Offer"], df2["Offer"], df3["Offer"], df6["Offer"],  df12["Offer"]], axis=1)
-offer.columns = ["1M", "2M", "3M", "6M", "1Y"]
-
-sp_snap = pd.DataFrame([offer.iloc[-1], mid.iloc[-1], bid.iloc[-1]]).T
-sp_snap.columns = ["Offer", "Mid", "Bid"]
+st.markdown("# ")
+st.markdown("# ")
+st.write("""
+### 1개월-3개월 비교 (spread)   
+* 환산된 1개월물 스왑포인트에서 환산된 3개월물 스왑포인트를 차감하여 순수한 가격 우위만 확인   
+* 달러선물(1개월)과 선물환(대표적으로 3개월)의 매도헷지시 비용 측면에서 의사결정을 위함   
+""")
 
 
 
-fig = sp_snap.plot(kind="line", markers=True, text = "value", title="스왑포인트 스냅샷 (Forward curve)")
-fig.update_traces(
-    marker=dict(
-        size=15,
-        line=dict(
-            width=2,
-            color='DarkSlateGrey'
-            ),
-    ),
-    textposition = "bottom center",
-    textfont=dict(
-        size=13,
-        color="crimson"
-    )
-)
-fig.layout.yaxis.tickformat = ',.1f'
-fig.update_traces(hovertemplate=None)
-fig.update_layout(hovermode="x unified")
-fig.update_layout(height=600)
-
-st.plotly_chart(fig, use_container_width=True)
 
 
 
@@ -161,14 +146,15 @@ st.plotly_chart(fig, use_container_width=True)
 st.write("# ")
 expander = st.expander("About")
 expander.markdown("""
-본 화면은 서울외국환중개 홈페이지의 데이터를 사용함
-   
-* **스왑포인트(FX swap point)?**   
-    * 스왑포인트 = 선물 또는 선물환 가격 - 현물가격
-    * 해당 통화 보유시 발생하는 수익이나 비용을 거래자 간에 주고 받도록 가격에 반영(=캐리)
-    * 예를 들어, 6개월 만기 스왑포인트 미드값이 -10원이라면   
-        현재시점에서 매도자는 10원 싸게 팔고, 매수자는 10원 싸게 매수할 수 있음)    
-#       
+* 이 화면의 데이터는 서울외국환중개로 부터 가져옴   
+
+* 1개월로 단순 환산 방법   
+    * 1개월물 스왑포인트   
+    * 2개월물 스왑포인트 / 2   
+    * 3개월물 스왑포인트 / 3   
+    * 6개월물 스왑포인트 / 6
+    * 1년물 스왑포인트 / 12   
+# 
 **Tel:** 02-0000-0000 **| E-mail:** krwjang@gmail.com   
---------부 장 백 차장 a.k.a. 킬리만자로의 표범
+---솔루션영업부 장 백 차장 a.k.a. 킬리만자로의 표범
 """)
