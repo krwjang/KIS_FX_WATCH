@@ -96,9 +96,28 @@ fig_2.layout.yaxis.tickformat = ',.1%'
 st.plotly_chart(fig_2)
 
 
+## 실시간 환율
+st.write("# ")
+st.write("""
+### 실시간 환율표
+""")
+
+url_live = "https://kr.widgets.investing.com/single-currency-crosses?theme=lightTheme&hideTitle=true&roundedCorners=true&currency=28"
+st.components.v1.iframe(url_live, width=None, height=300, scrolling=True)
+
+
+## 경제 캘린더
+st.write("# ")
+st.write("""
+### 경제 캘린더
+""")
+
+url_cal = "https://sslecal2.investing.com?columns=exc_flags,exc_currency,exc_importance,exc_actual,exc_forecast,exc_previous&features=datepicker,timeselector,filters&countries=17,5,4,72,35,37,11,25&calType=week&timeZone=88&lang=18"
+st.components.v1.iframe(url_cal, width=None, height=400, scrolling=True)
 
 
 
+#----------------------------------------------------------------------------------
 ## 푸터
 st.write("# ")
 expander = st.expander("About")
