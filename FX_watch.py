@@ -61,7 +61,7 @@ st.write("""
 fig_1 = fx.plot.line()
 fig_1.layout.yaxis.tickformat = ',.1%'
 
-st.plotly_chart(fig_1)
+st.plotly_chart(fig_1, use_container_width=True)
 
 
 # 두번째 차트 기간수익률
@@ -93,10 +93,11 @@ chg_fx.sort_values(by="60d", ascending=True, inplace=True)
 
 fig_2 = chg_fx.plot.bar(barmode='group')
 fig_2.layout.yaxis.tickformat = ',.1%'
-st.plotly_chart(fig_2)
+st.plotly_chart(fig_2, use_container_width=True)
 
 
-## 실시간 환율
+
+## 실시간 환율 
 st.write("# ")
 st.write("""
 ### 실시간 환율표

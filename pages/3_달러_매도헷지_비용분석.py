@@ -98,9 +98,9 @@ mid.columns = ["1M", "2M", "3M", "6M", "1Y"]
 # st.markdown("# ")
 st.write("""
 ### 기물별 스왑포인트 1개월 기준 환산    
-* 단기가 저렴한지 장기가 저렴한지 비교하기 위한 목적   
+* 단기가 저렴한지 장기가 저렴한지 비교하기 위한 목적으로 1개월 단위로 나누기   
 * 대부분의 기간에서는 만기가 짧은 순으로 가격이 높음 → 매도 헤지 비용이 낮음
-* 단 위기상황에서 달러 단기자금 수요가 폭발하게 되면 장단기 스왑포인트 역전 → 단기물 매도 헤지 비용이 더 높음
+* 단, 달러 단기자금 수요가 급증하게 되면 장단기 스왑포인트 역전 → 단기물 매도 헤지 비용이 더 높음
 """)
 
 trans = pd.DataFrame()
@@ -111,7 +111,11 @@ trans["6M"] = mid["6M"] / 6
 trans["1Y"] = mid["1Y"] / 12
 
 fig_1 = trans.plot.line()
-st.plotly_chart(fig_1)
+fig_1.update_traces(hovertemplate=None)
+fig_1.update_layout(hovermode="x unified")
+fig_1.layout.yaxis.tickformat = ',.2f'
+fig_1.add_hline(y=0)
+st.plotly_chart(fig_1, use_container_width=True)
 
 
 st.markdown("# ")
@@ -131,12 +135,32 @@ st.dataframe(dataframe)
 st.markdown("# ")
 st.markdown("# ")
 st.write("""
-### 1개월-3개월 비교 (spread)   
-* 환산된 1개월물 스왑포인트에서 환산된 3개월물 스왑포인트를 차감하여 순수한 가격 우위만 확인   
-* 달러선물(1개월)과 선물환(대표적으로 3개월)의 매도헷지시 비용 측면에서 의사결정을 위함   
+### 1개월-n개월물 비교 (spread)   
+* 환산된 1개월물 스왑포인트에서 환산된 n개월물 스왑포인트를 차감하여 순수한 가격 우위만 측정   
+* 달러선물(1개월)과 선물환(대표적으로 3개월)의 매도헷지시 비용 측면에서 의사결정을 위함
+* 지난 10년간 1개월물이 3개월물 보다 월평균 0.12원 절약 (통화선물 거래수수료 수준)
+* 최근 1년간 1개월물이 3개월물 보다 월평균 0.27원 절약    
 """)
+col1, col2 = st.columns(2)
+with col2:
+    nmonths = st.selectbox(
+        '기물 선택',
+        ('2M', '3M', '6M', '1Y'), 1)
 
+spread = trans["1M"] - trans[nmonths]
+fig_2 = spread.plot.area()
+fig_2.update_traces(hovertemplate=None)
+fig_2.update_layout(hovermode="x unified")
+fig_2.layout.yaxis.tickformat = ',.2f'
+sp_mean = round(spread.mean(), 2)
+fig_2.add_hline(y=sp_mean, line_dash="dot",
+              annotation_text=f"평균 : {sp_mean}원", 
+              annotation_position="top right",
+              annotation_font_size=15,
+              annotation_font_color="red"
+)
 
+st.plotly_chart(fig_2, use_container_width=True)
 
 
 

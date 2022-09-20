@@ -100,13 +100,16 @@ mid.columns = ["1M", "2M", "3M", "6M", "1Y"]
 # st.markdown("# ")
 st.write("""
 ### 스왑포인트 일별 추이    
-기물별 스왑포인트 종가 (단위:원)
+기물별 스왑포인트 종가 (단위:원)   
+* 플러스  : 매도자 수익 / 매수자 비용 
+* 마이너스: 매도자 비용 / 매수자 수익
 """)
 
-fig_1 = mid.plot(kind="area")
+fig_1 = mid.plot(kind="line")
 fig_1.update_traces(hovertemplate=None)
 fig_1.update_layout(hovermode="x unified")
 fig_1.layout.yaxis.tickformat = ',.2f'
+fig_1.add_hline(y=0)
 fig_1.update_layout(height=600)
 st.plotly_chart(fig_1, use_container_width=True)
 
