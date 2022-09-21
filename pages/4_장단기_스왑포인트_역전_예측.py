@@ -10,6 +10,10 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 # import FinanceDataReader as fdr
+import plotly.express as px
+from prophet import Prophet
+
+
 
 # 판다스 플로팅 백앤드로 plotly 사용
 pd.options.plotting.backend = "plotly"
@@ -103,20 +107,36 @@ st.write("""
 * **스왑포인트 역전을 피해갈 수는 없을까?**    
 """)
 
-spread = trans["1M"] - trans["3M"]
-fig_2 = spread.plot.area()
-fig_2.update_traces(hovertemplate=None)
-fig_2.update_layout(hovermode="x unified")
-fig_2.layout.yaxis.tickformat = ',.2f'
-sp_mean = round(spread.mean(), 2)
-fig_2.add_hline(y=sp_mean, line_dash="dot",
+trans["spread"] = trans["1M"] - trans["3M"]
+fig_1 = trans["spread"].plot.area()
+fig_1.update_traces(hovertemplate=None)
+fig_1.update_layout(hovermode="x unified")
+fig_1.layout.yaxis.tickformat = ',.2f'
+sp_mean = round(trans["spread"].mean(), 2)
+fig_1.add_hline(y=sp_mean, line_dash="dot",
               annotation_text=f"평균 : {sp_mean}원", 
               annotation_position="top right",
               annotation_font_size=15,
               annotation_font_color="red"
 )
 
+st.plotly_chart(fig_1, use_container_width=True)
+
+
+# 데이터프레임을 년, 월, 값으로 분해
+df_std_spread_pivot = trans["spread"].resample("M").mean()
+st.table(df_std_spread_pivot.index.month)
+
+# df_std_spread_pivot["Date"] = pd.to_datetime(df_std_spread_pivot.index)
+# df_std_spread_pivot.set_index("Date")
+df_std_spread_pivot["year"] = df_std_spread_pivot.index.year
+# df_std_spread_pivot["month"] = df_std_spread_pivot.index.month
+df_std_spread_pivot = df_std_spread_pivot.pivot("year", "month", "spread")
+
+fig_2 = px.imshow(df_std_spread_pivot, text_auto=".2f", color_continuous_scale='Bluered_r')
+fig_2.update_layout(height=600)
 st.plotly_chart(fig_2, use_container_width=True)
+
 
 
 
