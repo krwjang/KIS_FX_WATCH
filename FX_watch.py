@@ -10,6 +10,8 @@ import yfinance as yf
 # from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 # import FinanceDataReader as fdr
+import plotly.express as px
+
 
 # 판다스 플로팅 백앤드로 plotly 사용
 pd.options.plotting.backend = "plotly"
@@ -45,7 +47,7 @@ start_date = st.sidebar.date_input("시작 날짜", ago)
 end_date = st.sidebar.date_input("끝 날짜", now) + timedelta(days=1)
 
 
-### 데이터 로딩
+### 데이터 로딩 및 차트 1
 
 data = yf.download(name , start=start_date, end=end_date)
 data.fillna(method='ffill', inplace=True)  # 결측값 뒤로 채우기
@@ -55,7 +57,7 @@ fx = data["Close"] / data["Close"].iloc[0] -1
 
 st.write("""
 ### 환율 변동추이 비교(%)   
-하락: 달러대비 해당통화 강세 / 상승: 해당통화 약세 / DX는 달러인덱스
+**하락:** 달러대비 해당통화 강세 / **상승:** 해당통화 약세 / DX는 달러인덱스
 """)
 
 fig_1 = fx.plot.line()
@@ -63,13 +65,26 @@ fig_1.layout.yaxis.tickformat = ',.1%'
 
 st.plotly_chart(fig_1, use_container_width=True)
 
+# # 상관계수
+# st.caption("### 상관계수 (Correlation Coefficient)")
+# col1, col2 = st.columns(2)
+# with col1:
+#     roll = st.selectbox("측정 단위 일수 (예, 5일=일주일)", (2, 5, 10, 20), 1)
+
+# pct_chg = data["Close"].pct_change()
+# roll_pct = pct_chg.rolling(roll).sum()
+# correl = roll_pct.corr().iloc[1].T
+# st.table(correl)
+
+
+
 
 # 두번째 차트 기간수익률
-
+# st.write("# ")
 st.write("# ")
 st.write("""
-### 통화별 기간수익률 비교   
-60일 기준 달러대비 강한순 / 높을 수록 해당통화 약세 / DX는 달러인덱스
+### 주요 통화 기간수익률 비교   
+60일 기준 달러대비 강세순 / 수치가 높을 수록 해당통화 약세 / DX는 달러인덱스
 """)
 
 code = ['KRW=X','JPY=X', "EUR=X", "CNY=X", "AUD=X", "CHF=X", "DX-Y.NYB"]
@@ -98,6 +113,7 @@ st.plotly_chart(fig_2, use_container_width=True)
 
 
 ## 실시간 환율 
+st.write("# ")
 st.write("# ")
 st.write("""
 ### 실시간 환율표
