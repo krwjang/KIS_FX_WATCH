@@ -106,10 +106,10 @@ last_sp_1y = mid["1Y"].iloc[-1]
 
 
 col1.metric("1개월물", f"{last_sp_1m}원", round(mid["1M"].iloc[-1] - mid["1M"].iloc[-2], ndigits=3))
-col2.metric("2개월물", f"{last_sp_2m}원", round(mid["1M"].iloc[-1] - mid["1M"].iloc[-2], ndigits=3))
-col3.metric("3개월물", f"{last_sp_3m}원", round(mid["1M"].iloc[-1] - mid["1M"].iloc[-2], ndigits=3))
-col4.metric("6개월물", f"{last_sp_6m}원", round(mid["1M"].iloc[-1] - mid["1M"].iloc[-2], ndigits=3))
-col5.metric("1년물", f"{last_sp_1y}원", round(mid["1M"].iloc[-1] - mid["1M"].iloc[-2], ndigits=3))
+col2.metric("2개월물", f"{last_sp_2m}원", round(mid["2M"].iloc[-1] - mid["2M"].iloc[-2], ndigits=3))
+col3.metric("3개월물", f"{last_sp_3m}원", round(mid["3M"].iloc[-1] - mid["3M"].iloc[-2], ndigits=3))
+col4.metric("6개월물", f"{last_sp_6m}원", round(mid["6M"].iloc[-1] - mid["6M"].iloc[-2], ndigits=3))
+col5.metric("1년물", f"{last_sp_1y}원", round(mid["1Y"].iloc[-1] - mid["1Y"].iloc[-2], ndigits=3))
 
 
 
