@@ -39,7 +39,7 @@ st.title("KIS FX Watch  :leopard:")
 ## 사이드바
 st.sidebar.header("통화, 날짜 범위 지정")
 
-name = st.sidebar.multiselect("종목(복수 선택 가능)", ['KRW=X','JPY=X', "EUR=X", "CNY=X", "AUD=X", "CHF=X", "DX-Y.NYB"], ['KRW=X', "DX-Y.NYB"])
+name = st.sidebar.multiselect("비교 통화 (복수 선택 가능)", ['KRW=X','JPY=X', "EUR=X", "CNY=X", "AUD=X", "CHF=X", "DX-Y.NYB"], ['KRW=X', "DX-Y.NYB"])
 
 now = datetime.now().date()
 ago = now - timedelta(weeks=12)
@@ -65,16 +65,16 @@ fig_1.layout.yaxis.tickformat = ',.1%'
 
 st.plotly_chart(fig_1, use_container_width=True)
 
-# # 상관계수
-# st.caption("### 상관계수 (Correlation Coefficient)")
-# col1, col2 = st.columns(2)
-# with col1:
-#     roll = st.selectbox("측정 단위 일수 (예, 5일=일주일)", (2, 5, 10, 20), 1)
+# 상관계수
+st.caption("### 상관계수 (Correlation Coefficient)")
+col1, col2 = st.columns(2)
+with col1:
+    roll = st.selectbox("측정 단위 일수*", (2, 5, 10, 20), 1)
 
-# pct_chg = data["Close"].pct_change()
-# roll_pct = pct_chg.rolling(roll).sum()
-# correl = roll_pct.corr().iloc[1].T
-# st.table(correl)
+pct_chg = data["Close"].pct_change()
+roll_pct = pct_chg.rolling(roll).sum()
+correl = roll_pct.corr().loc["KRW=X"]
+st.dataframe(correl)
 
 
 
@@ -142,6 +142,9 @@ expander = st.expander("About")
 expander.markdown("""
 본 화면의 데이터는 Yahoo Finance 및 Investing.com로 부터 가져오며 티커은 Yahoo Finance 참조   
 CFD 시세가 사용되므로 국내 현물환율과 미미한 차이가 발생할 수 있음
+
+* **상관계수 측정 단위 일수**   
+    예) 5 선택시 5일 변동성의 동행하는 정도를 측정
 #
 **Tel:** 02-0000-0000 **| E-mail:** krwjang@gmail.com   
 --------부 장 백 차장 a.k.a. 킬리만자로의 표범

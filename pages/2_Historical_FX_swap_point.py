@@ -132,7 +132,7 @@ st.dataframe(tail, height=300)
 st.write("# ")
 expander = st.expander("About")
 expander.markdown("""
-본 화면은 서울외국환중개 홈페이지의 데이터를 사용함
+본 화면은 서울외국환중개 홈페이지의 데이터를 사용함   
 
 
 **Tel:** 02-0000-0000 **| E-mail:** krwjang@gmail.com   
