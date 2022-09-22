@@ -29,6 +29,8 @@ st.set_page_config(
 ## 헤더부분
 # st.image('image/img_signature.png', width=100)
 st.title("KIS FX Watch  :leopard:")
+st.markdown("---")   # 구분 가로선
+
 
 #--------------------------------------------------------------------------------------------------------------
 
@@ -93,7 +95,9 @@ mid.columns = ["1M", "2M", "3M", "6M", "1Y"]
 
 ## 전광판 매트릭스
 sp_date = datetime.date(mid.index[-1])
-st.markdown(f"### FX스왑포인트* 종가 기준, 중간값(Mid) - {sp_date}")
+st.markdown("### FX스왑포인트*")   
+st.markdown(f"전일({sp_date}) 종가 기준 / 기물 / 중간값(Mid) / 전일대비 (단위: 원)")
+st.markdown("* 미래에 주고 받을 환율을 현재환율(Spot)에서 얼마나 가감(premium/discount)해서 거래 할 것인지 결정")
 st.markdown("# ")
 
 col1, col2, col3, col4, col5, = st.columns(5)
@@ -115,8 +119,15 @@ col5.metric("1년물", f"{last_sp_1y}원", round(mid["1Y"].iloc[-1] - mid["1Y"].
 
 ## 플로팅 
 st.write("# ")
-st.write("# ")
-st.write("### 기물별 스왑포인트 상세 ")
+st.markdown("---")   # 구분 가로선
+st.write("""
+### FX스왑포인트 현황 상세 
+전일 종가기준 기물별 스왑포인트 Bid / Mid / Offer 값 (사자/중간/팔자, 단위: 원)
+* 거래방식
+    * **증권 통화선물** : 거래소에서 공개 거래되므로 Mid값 부근에서 시장참가자간 직접 거래 (매 1개월 짜리로 만기 연장)
+    * **은행 선물환** : 은행이 거래 상대방이므로 Mid값+신용등급 등을 감안한 마진을 포함하여 가격제시 (장단기 모두 가능)
+""")
+
 
 bid = pd.concat([df1["Bid"], df2["Bid"], df3["Bid"], df6["Bid"],  df12["Bid"]], axis=1)
 bid.columns = ["1M", "2M", "3M", "6M", "1Y"]
@@ -132,7 +143,7 @@ sp_snap.columns = ["Offer", "Mid", "Bid"]
 
 
 
-fig = sp_snap.plot(kind="line", markers=True, text = "value", title="스왑포인트 스냅샷 (Forward curve)")
+fig = sp_snap.plot(kind="line", markers=True, text = "value")
 fig.update_traces(
     marker=dict(
         size=15,
@@ -150,7 +161,7 @@ fig.update_traces(
 fig.layout.yaxis.tickformat = ',.1f'
 fig.update_traces(hovertemplate=None)
 fig.update_layout(hovermode="x unified")
-fig.update_layout(height=600)
+fig.update_layout(height=500)
 
 st.plotly_chart(fig, use_container_width=True)
 
@@ -158,7 +169,7 @@ st.plotly_chart(fig, use_container_width=True)
 
 #-------------------------------------------------------------------------------
 ## 푸터
-st.write("# ")
+st.markdown("---")   # 구분 가로선
 expander = st.expander("About")
 expander.markdown("""
 본 화면은 서울외국환중개 홈페이지의 데이터를 사용함
@@ -172,7 +183,7 @@ expander.markdown("""
 #       
 * **환헷지시 만기 기간의 고려**
     * 짧은 만기 : 대표적으로 증권사 통화선물 / 만기 도래시 롤오버 하여 연장 / 스왑포인트(수익 or 비용) 변동 불확실성 노출
-    * 긴 만기 : 대표적으로 은행 선물환 / 만기까지 스왑포인트 고정 / 불확실성 없는 대신 헷지 비용 높음 (이후 섹션에서 논의)
+    * 긴 만기 : 대표적으로 은행 선물환 / 만기까지 스왑포인트 고정 / 불확실성 없는 대신 상대적 비용 높음 (이후 섹션에서 논의)
 #
 **Tel:** 02-0000-0000 **| E-mail:** krwjang@gmail.com   
 --------부 장 백 차장 a.k.a. 킬리만자로의 표범
