@@ -33,6 +33,8 @@ st.set_page_config(
 ## 헤더부분
 # st.image('image/img_signature.png', width=100)
 st.title("KIS FX Watch  :leopard:")
+st.markdown("---")   # 구분 가로선
+
 
 #--------------------------------------------------------------------------------------------------------------
 
@@ -100,15 +102,15 @@ trans["3M"] = mid["3M"] / 3
 # st.markdown("# ")
 st.write("""
 ### 1개월-3개월물 스왑포인트 역전 (spread 역전)  
-2010년부터 현재까지 1-3개월 스왑포인트 스프레드
-* 1개월물 스왑포인트에서 환산된 3개월물 스왑포인트를 차감하면 대부분 기간에서 1개월물 가격이 높음 (매도헷지 비용 낮음)   
+2015년부터 현재까지 1-3개월 스왑포인트 스프레드 (단위: 원)
+* 스왑포인트 역전 발생 시 일시적으로 단기(1M)가 불리함   
 * 시장 충격 등으로 단기 달러 자금수요가 폭증하게 되면 일시적 스왑포인트 역전 현상 발생   
 * **즉, 달러선물(1개월) 매도헷지시 장기적으로는 비용 우위에 있지만, 단기적 스왑포인트 역전 리스크에 노출**   
 * **스왑포인트 역전을 피해갈 수는 없을까?**    
 """)
 
 trans["spread"] = trans["1M"] - trans["3M"]
-fig_1 = trans["spread"].plot.area()
+fig_1 = trans["spread"].loc["2015" : ].plot.area()
 fig_1.update_traces(hovertemplate=None)
 fig_1.update_layout(hovermode="x unified")
 fig_1.layout.yaxis.tickformat = ',.2f'
@@ -119,23 +121,41 @@ fig_1.add_hline(y=sp_mean, line_dash="dot",
               annotation_font_size=15,
               annotation_font_color="red"
 )
+fig_1.add_vline(x="2017-12-27",line_dash="dash", line_color="orange")
+fig_1.add_vline(x="2018-03-26",line_dash="dash", line_color="orange")
+fig_1.add_vline(x="2018-12-17",line_dash="dash", line_color="orange")
+fig_1.add_vline(x="2019-12-26",line_dash="dash", line_color="orange")
+fig_1.add_vline(x="2020-03-13",line_dash="dash", line_color="orange")
+fig_1.add_vline(x="2020-12-24",line_dash="dash", line_color="orange")
+fig_1.add_vline(x="2021-12-15",line_dash="dash", line_color="orange")
 
 st.plotly_chart(fig_1, use_container_width=True)
 
 
 # 데이터프레임을 년, 월, 값으로 분해
-df_std_spread_pivot = trans["spread"].resample("M").mean()
-st.table(df_std_spread_pivot.index.month)
+st.markdown("---")   # 구분 가로선
+st.write("""
+### 1개월-3개월물 스프레드의 계절성에 주목  
+* 계절적 패턴이 있지 않을까?
+""")
 
-# df_std_spread_pivot["Date"] = pd.to_datetime(df_std_spread_pivot.index)
-# df_std_spread_pivot.set_index("Date")
-df_std_spread_pivot["year"] = df_std_spread_pivot.index.year
-# df_std_spread_pivot["month"] = df_std_spread_pivot.index.month
-df_std_spread_pivot = df_std_spread_pivot.pivot("year", "month", "spread")
+# seasonal = pd.DataFrame()
+# seasonal = trans["spread"].resample("M").mean()
+# seasonal["Date"] = pd.to_datetime(seasonal.index).strftime("%Y-%m-%d")
+# # seasonal["year"] = seasonal.index.year
+# # df_std_spread_pivot["month"] = df_std_spread_pivot["Date"]
+# st.dataframe(seasonal)
 
-fig_2 = px.imshow(df_std_spread_pivot, text_auto=".2f", color_continuous_scale='Bluered_r')
-fig_2.update_layout(height=600)
-st.plotly_chart(fig_2, use_container_width=True)
+
+# # df_std_spread_pivot["Date"] = pd.to_datetime(df_std_spread_pivot.index)
+# # df_std_spread_pivot.set_index("Date")
+# # df_std_spread_pivot["year"] = df_std_spread_pivot.index.year
+# # df_std_spread_pivot["month"] = df_std_spread_pivot.index.month
+# # df_std_spread_pivot = df_std_spread_pivot.pivot("year", "month", "spread")
+
+# fig_2 = px.imshow(df_std_spread_pivot, text_auto=".2f", color_continuous_scale='Bluered_r')
+# fig_2.update_layout(height=600)
+# st.plotly_chart(fig_2, use_container_width=True)
 
 
 
@@ -143,7 +163,7 @@ st.plotly_chart(fig_2, use_container_width=True)
 
 #-------------------------------------------------------------------------------
 ## 푸터
-st.write("# ")
+st.markdown("---")   # 구분 가로선
 expander = st.expander("About")
 expander.markdown("""
 이 화면의 데이터는 서울외국환중개로 부터 가져옴   

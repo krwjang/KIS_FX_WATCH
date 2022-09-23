@@ -30,6 +30,8 @@ st.set_page_config(
 ## 헤더부분
 # st.image('image/img_signature.png', width=100)
 st.title("KIS FX Watch  :leopard:")
+st.markdown("---")   # 구분 가로선
+
 
 #--------------------------------------------------------------------------------------------------------------
 
@@ -130,6 +132,7 @@ st.dataframe(tail, height=300)
 #-------------------------------------------------------------------------------
 ## 푸터
 st.write("# ")
+st.markdown("---")   # 구분 가로선
 expander = st.expander("About")
 expander.markdown("""
 본 화면은 서울외국환중개 홈페이지의 데이터를 사용함   
