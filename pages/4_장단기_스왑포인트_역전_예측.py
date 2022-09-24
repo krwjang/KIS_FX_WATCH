@@ -11,7 +11,13 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 # import FinanceDataReader as fdr
 import plotly.express as px
+
+import pystan
 from fbprophet import Prophet
+from fbprophet.plot import add_changepoints_to_plot
+from fbprophet.diagnostics import cross_validation
+from fbprophet.diagnostics import performance_metrics
+from fbprophet.plot import plot_cross_validation_metric
 
 
 
