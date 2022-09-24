@@ -94,6 +94,7 @@ code = ['KRW=X','JPY=X', "EUR=X", "CNY=X", "AUD=X", "CHF=X", "DX-Y.NYB"]
 chg_data = yf.download(code , start=end_date - timedelta(weeks=52), end=end_date)
 chg_data = chg_data["Close"]
 chg_data.fillna(method='ffill', inplace=True)
+chg_data["DX-Y.NYB"] = chg_data["DX-Y.NYB"] * -1
 
 chg_1d = (chg_data.iloc[-1] / chg_data.iloc[-2]  -1) * -1
 chg_5d = (chg_data.iloc[-1] / chg_data.iloc[-6]  -1) * -1
