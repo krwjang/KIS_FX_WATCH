@@ -112,7 +112,11 @@ st.write("""
 * **마이너스:** 매도자 비용 / 매수자 수익
 """)
 
-fig_1 = mid.plot(kind="line")
+fig_1 = mid.plot(kind="line", labels={
+                     "Date": "일자",
+                     "value": "스왑포인트(원)",
+                     "variable": "기물"
+                 })
 fig_1.update_traces(hovertemplate=None)
 fig_1.update_layout(hovermode="x unified")
 fig_1.layout.yaxis.tickformat = ',.2f'

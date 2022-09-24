@@ -44,7 +44,7 @@ name = st.sidebar.multiselect("비교 통화 (복수 선택 가능)", ['KRW=X','
 
 now = datetime.now().date()
 ago = now - timedelta(days=90)
-start_date = st.sidebar.date_input("시작 날짜 (기본값 -3M)", ago)
+start_date = st.sidebar.date_input("시작 날짜 (기본값: 3M)", ago)
 end_date = st.sidebar.date_input("끝 날짜", now) + timedelta(days=1)
 
 
@@ -62,7 +62,11 @@ st.write("""
 **하락:** 달러대비 해당통화 강세 / **상승:** 해당통화 약세 / DX는 달러인덱스 (단위: %)
 """)
 
-fig_1 = fx.plot.line()
+fig_1 = fx.plot.line(labels={
+                     "Date": "일자",
+                     "value": "변화율",
+                     "variable": "선택 통화"
+                 })
 fig_1.layout.yaxis.tickformat = ',.1%'
 
 st.plotly_chart(fig_1, use_container_width=True)
@@ -116,7 +120,11 @@ chg_fx.loc["DX-Y.NYB"] = chg_fx.loc["DX-Y.NYB"] * -1   # 달러인덱스는 부�
 
 chg_fx.sort_values(by="20d", ascending=False, inplace=True)
 
-fig_2 = chg_fx.plot.bar(barmode='group')
+fig_2 = chg_fx.plot.bar(barmode='group', labels={
+                     "index": "통화",
+                     "value": "변화율",
+                     "variable": "기간"
+                 })
 fig_2.layout.yaxis.tickformat = ',.1%'
 st.plotly_chart(fig_2, use_container_width=True)
 

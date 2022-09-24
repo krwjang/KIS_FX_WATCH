@@ -12,15 +12,6 @@ from datetime import datetime, timedelta
 # import FinanceDataReader as fdr
 import plotly.express as px
 
-import pystan
-from fbprophet import Prophet
-from fbprophet.plot import add_changepoints_to_plot
-from fbprophet.diagnostics import cross_validation
-from fbprophet.diagnostics import performance_metrics
-from fbprophet.plot import plot_cross_validation_metric
-
-
-
 # 판다스 플로팅 백앤드로 plotly 사용
 pd.options.plotting.backend = "plotly"
 
@@ -113,9 +104,13 @@ st.write("""
 """)
 
 trans["spread"] = trans["1M"] - trans["3M"]
-fig_1 = trans["spread"].loc["2015" : ].plot.area()
+fig_1 = trans["spread"].loc["2015" : ].plot.area(labels={
+                     "Date": "일자",
+                     "value": "1개월 스왑포인트 차이(원)"
+                     }
+                     )
 fig_1.update_traces(hovertemplate=None)
-fig_1.update_layout(hovermode="x unified")
+fig_1.update_layout(hovermode="x unified", showlegend=False)
 fig_1.layout.yaxis.tickformat = ',.2f'
 sp_mean = round(trans["spread"].mean(), 2)
 fig_1.add_hline(y=sp_mean, line_dash="dot",
@@ -148,33 +143,6 @@ df["Y"] = df["spread"]
 df.reset_index(inplace=True)
 
 df = df[["DS", "Y"]]
-
-# 시계열 모델피팅
-m = Prophet()
-m.fit(df)
-
-# future = m.make_future_dataframe(periods=60)
-# st.table(future.tail())
-
-
-# seasonal = pd.DataFrame()
-# seasonal = trans["spread"].resample("M").mean()
-# seasonal["Date"] = pd.to_datetime(seasonal.index).strftime("%Y-%m-%d")
-# # seasonal["year"] = seasonal.index.year
-# # df_std_spread_pivot["month"] = df_std_spread_pivot["Date"]
-# st.dataframe(seasonal)
-
-
-# # df_std_spread_pivot["Date"] = pd.to_datetime(df_std_spread_pivot.index)
-# # df_std_spread_pivot.set_index("Date")
-# # df_std_spread_pivot["year"] = df_std_spread_pivot.index.year
-# # df_std_spread_pivot["month"] = df_std_spread_pivot.index.month
-# # df_std_spread_pivot = df_std_spread_pivot.pivot("year", "month", "spread")
-
-# fig_2 = px.imshow(df_std_spread_pivot, text_auto=".2f", color_continuous_scale='Bluered_r')
-# fig_2.update_layout(height=600)
-# st.plotly_chart(fig_2, use_container_width=True)
-
 
 
 

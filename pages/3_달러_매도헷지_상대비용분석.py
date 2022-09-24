@@ -118,7 +118,11 @@ trans["3M"] = mid["3M"] / 3
 trans["6M"] = mid["6M"] / 6
 trans["1Y"] = mid["1Y"] / 12
 
-fig_1 = trans.plot.line()
+fig_1 = trans.plot.line(labels={
+                     "Date": "일자",
+                     "value": "1개월당 스왑포인트(원)",
+                     "variable": "기물"
+                 })
 fig_1.update_traces(hovertemplate=None)
 fig_1.update_layout(hovermode="x unified")
 fig_1.layout.yaxis.tickformat = ',.2f'
@@ -155,13 +159,17 @@ st.write("""
 col1, col2 = st.columns(2)
 with col2:
     nmonths = st.selectbox(
-        '비교대상 n개월물 선택',
+        '1개월물 - "n개월물" 선택',
         ('2M', '3M', '6M', '1Y'), 1)
 
 spread = trans["1M"] - trans[nmonths]
-fig_2 = spread.plot.area()
+fig_2 = spread.plot.area(labels={
+                     "Date": "일자",
+                     "value": "1개월 스왑포인트 차이(원)",
+                     "variable": "기물"
+                 })
 fig_2.update_traces(hovertemplate=None)
-fig_2.update_layout(hovermode="x unified")
+fig_2.update_layout(hovermode="x unified", showlegend=False)
 fig_2.layout.yaxis.tickformat = ',.2f'
 sp_mean = round(spread.mean(), 2)
 fig_2.add_hline(y=sp_mean, line_dash="dot",

@@ -119,7 +119,7 @@ col5.metric("1년물", f"{last_sp_1y}원", round(mid["1Y"].iloc[-1] - mid["1Y"].
 ## 플로팅 
 st.write("# ")
 st.write("# ")
-st.write("### 기물별 스왑포인트 상세 ")
+st.write("### 기물별(Tenor) 스왑포인트 상세 ")
 
 bid = pd.concat([df1["Bid"], df2["Bid"], df3["Bid"], df6["Bid"],  df12["Bid"]], axis=1)
 bid.columns = ["1M", "2M", "3M", "6M", "1Y"]
@@ -135,7 +135,11 @@ sp_snap.columns = ["Offer", "Mid", "Bid"]
 
 
 
-fig = sp_snap.plot(kind="line", markers=True, text = "value", title="스왑포인트 스냅샷 (Forward curve)")
+fig = sp_snap.plot(kind="line", markers=True, text = "value", labels={
+                     "index": "기물",
+                     "value": "스왑포인트(원)",
+                     "variable": "구분"
+                 })
 fig.update_traces(
     marker=dict(
         size=15,
