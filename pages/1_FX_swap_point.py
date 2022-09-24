@@ -94,8 +94,10 @@ mid.columns = ["1M", "2M", "3M", "6M", "1Y"]
 
 ## 전광판 매트릭스
 sp_date = datetime.date(mid.index[-1])
-st.markdown(f"### FX스왑포인트* 종가 기준, 중간값(Mid) - {sp_date}")
-st.markdown("# ")
+st.markdown("### FX스왑포인트*")
+st.markdown(f"전일({sp_date}) 종가 기준")
+st.markdown("기물 / 종가가격 / 전일대비 (단위: 원)")
+st.markdown("#")
 
 col1, col2, col3, col4, col5, = st.columns(5)
 

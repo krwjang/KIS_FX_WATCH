@@ -2,5 +2,5 @@ beautifulsoup4
 pandas==1.4.4
 yfinance==0.1.74
 plotly
-finance-datareader
-prophet
+fbprophet
+seaborn

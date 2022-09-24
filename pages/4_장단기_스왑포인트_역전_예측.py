@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 # import FinanceDataReader as fdr
 import plotly.express as px
-from prophet import Prophet
+from fbprophet import Prophet
 
 
 
@@ -38,8 +38,6 @@ st.markdown("---")   # 구분 가로선
 
 #--------------------------------------------------------------------------------------------------------------
 
-
-year=1
 ## 데이터 로드
 # 개별 스왑포인트 크롤링 함수
 @st.cache
@@ -48,7 +46,7 @@ def get_fxswap(exp="1M", year=1):
     years = 365 * year
     now = pd.to_datetime(datetime.now()) + timedelta(days=2)
     today = now.strftime(format="%Y-%m-%d")
-    ago = "2010-01-01"
+    ago = "2010-01-01"  # 그냥 시작일 강제지정
 
     site = "http://www.smbs.biz"
     path = f"/Exchange/FxSwap_xml.jsp?arr_value={exp}_{ago}_{today} HTTP/1.1"
@@ -84,9 +82,8 @@ def get_fxswap(exp="1M", year=1):
     return df
 
 
-
-df1 = get_fxswap(exp="1M", year=year)
-df3 = get_fxswap(exp="3M", year=year)
+df1 = get_fxswap(exp="1M")
+df3 = get_fxswap(exp="3M")
 
 mid = pd.concat([df1["Mid"], df3["Mid"]], axis=1)
 mid.columns = ["1M", "3M"]
@@ -138,6 +135,21 @@ st.write("""
 ### 1개월-3개월물 스프레드의 계절성에 주목  
 * 계절적 패턴이 있지 않을까?
 """)
+
+df = trans
+df["DS"] = pd.to_datetime(df.index.strftime("%Y-%m-%d"))
+df["Y"] = df["spread"]
+df.reset_index(inplace=True)
+
+df = df[["DS", "Y"]]
+
+# 시계열 모델피팅
+m = Prophet()
+m.fit(df)
+
+# future = m.make_future_dataframe(periods=60)
+# st.table(future.tail())
+
 
 # seasonal = pd.DataFrame()
 # seasonal = trans["spread"].resample("M").mean()

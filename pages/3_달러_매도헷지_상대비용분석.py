@@ -155,7 +155,7 @@ st.write("""
 col1, col2 = st.columns(2)
 with col2:
     nmonths = st.selectbox(
-        '기물 선택',
+        '비교대상 n개월물 선택',
         ('2M', '3M', '6M', '1Y'), 1)
 
 spread = trans["1M"] - trans[nmonths]
