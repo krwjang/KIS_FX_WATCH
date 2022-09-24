@@ -2,6 +2,4 @@ beautifulsoup4
 pandas==1.4.4
 yfinance==0.1.74
 plotly
-fbprophet
 seaborn
-pystan==2.19.1.1
