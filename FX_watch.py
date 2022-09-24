@@ -86,7 +86,7 @@ st.write("# ")
 st.markdown("---")   # 구분 가로선
 st.write("""
 ### 주요 통화 기간수익률 비교   
-60일 기준 달러대비 강세순 / 높을 수록 해당통화 강세 / DX는 달러인덱스 (단위: %)
+20거래일 기준 달러대비 강세순 / 높을 수록 해당통화 강세 / DX는 달러인덱스 (단위: %)
 """)
 
 code = ['KRW=X','JPY=X', "EUR=X", "CNY=X", "AUD=X", "CHF=X", "DX-Y.NYB"]
@@ -94,22 +94,27 @@ code = ['KRW=X','JPY=X', "EUR=X", "CNY=X", "AUD=X", "CHF=X", "DX-Y.NYB"]
 chg_data = yf.download(code , start=end_date - timedelta(weeks=52), end=end_date)
 chg_data = chg_data["Close"]
 chg_data.fillna(method='ffill', inplace=True)
-chg_data["DX-Y.NYB"] = chg_data["DX-Y.NYB"] * -1
 
 chg_1d = (chg_data.iloc[-1] / chg_data.iloc[-2]  -1) * -1
+chg_2d = (chg_data.iloc[-1] / chg_data.iloc[-3]  -1) * -1
 chg_5d = (chg_data.iloc[-1] / chg_data.iloc[-6]  -1) * -1
 chg_20d = (chg_data.iloc[-1] / chg_data.iloc[-21]  -1) * -1
-chg_60d = (chg_data.iloc[-1] / chg_data.iloc[-61]  -1) * -1
+# chg_60d = (chg_data.iloc[-1] / chg_data.iloc[-61]  -1) * -1
 
 chgs = pd.DataFrame([
     chg_1d,
+    chg_2d,
     chg_5d,
     chg_20d,
-    chg_60d
+    # chg_60d
     ])
 chg_fx = chgs.T
-chg_fx.columns = ["1d", "5d", "20d", "60d"]
-chg_fx.sort_values(by="60d", ascending=False, inplace=True)
+# chg_fx.columns = ["1d", "2d", "5d", "20d", "60d"]
+chg_fx.columns = ["1d", "2d", "5d", "20d"]
+
+chg_fx.loc["DX-Y.NYB"] = chg_fx.loc["DX-Y.NYB"] * -1   # 달러인덱스는 부호 바꾸기
+
+chg_fx.sort_values(by="20d", ascending=False, inplace=True)
 
 fig_2 = chg_fx.plot.bar(barmode='group')
 fig_2.layout.yaxis.tickformat = ',.1%'
