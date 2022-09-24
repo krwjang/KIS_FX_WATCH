@@ -35,16 +35,16 @@ st.title("KIS FX Watch  :leopard:")
 ## 데이터 로드
 @st.cache
 # 개별 스왑포인트 크롤링 함수
-def get_fxswap(exp="1M", year=1):
+def get_fxswap(exp="1M", year=1, now=now):
     '''만기, 기간(연) 입력하여 개별 스왑포인트 불러오기'''
     years = 365 * year
-    now = pd.to_datetime(datetime.now()) + timedelta(days=2)
-    today = now.strftime(format="%Y-%m-%d")
+    now = pd.to_datetime(now) + timedelta(days=2)
+    end_date = now.strftime(format="%Y-%m-%d")
     ago = now - pd.Timedelta(days=years)
-    ago = ago.strftime(format="%Y-%m-%d")
+    start_date = ago.strftime(format="%Y-%m-%d")
 
     site = "http://www.smbs.biz"
-    path = f"/Exchange/FxSwap_xml.jsp?arr_value={exp}_{ago}_{today} HTTP/1.1"
+    path = f"/Exchange/FxSwap_xml.jsp?arr_value={exp}_{start_date}_{end_date} HTTP/1.1"
 
     header = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36",
@@ -78,6 +78,7 @@ def get_fxswap(exp="1M", year=1):
 
 
 year = 1
+now = datetime.now()
 
 df1 = get_fxswap(exp="1M", year=year)
 df2 = get_fxswap(exp="2M", year=year)
