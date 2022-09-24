@@ -4,4 +4,4 @@ yfinance==0.1.74
 plotly
 fbprophet
 seaborn
-pystan
+pystan==2.19.1.1
