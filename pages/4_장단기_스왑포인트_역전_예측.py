@@ -148,8 +148,10 @@ df_train.reset_index(inplace=True)
 
 m = Prophet()
 m.fit(df_train)
-future = m.make_future_dataframe(period = 252)
+future = m.make_future_dataframe(periods = 252)
 forecast = m.predict(future)
+st.text(forecast[["ds", "yhat", "yhat_lower", "yhat_upper"]].tail())
+
 
 
 #-------------------------------------------------------------------------------
