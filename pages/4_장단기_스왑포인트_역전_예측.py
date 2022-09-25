@@ -188,6 +188,7 @@ st.plotly_chart(fig_3, use_container_width=True)
 st.caption("예측치 데이터")
 forecast_data = forecast.iloc[-254:-1]
 forecast_data[["ds", "yhat", "yhat_lower", "yhat_upper"]].sort_values(by="ds", ascending = False, inplace=True)
+forecast_data.columns = ["일자", "예측값", "예측밴드 하단", "예측밴드 상단"]
 
 st.dataframe(forecast_data)
 
@@ -202,18 +203,12 @@ expander = st.expander("About")
 expander.markdown("""
 이 화면의 데이터는 서울외국환중개로 부터 가져옴   
 
-* 1개월로 단순 환산 방법   
-    * 1개월물 스왑포인트   
-    * 2개월물 스왑포인트 / 2   
-    * 3개월물 스왑포인트 / 3   
-    * 6개월물 스왑포인트 / 6
-    * 1년물 스왑포인트 / 12    
-###
-* 환헷지 고려시 스왑포인트가 전부는 아님
-    * 장기물은 헷지비용이 많이 드는 대신 거래를 채결하고 해당 기간동안 비용 고정
-    * 단기물은 계속 롤오버를 해야하므로 매 거래 시점의 변동에 노출(그래도 장기적으로 평균에 수렴)
-    * 은행 선물환 거래시 Credit line / 증권사 통화선물 거래시 증거금
-    * 은행 선물환 Mid가에 마진포함된 가격 / 증권사는 mid 수준에 거래되나 매매수수료 발생
+* 시계열 예측 알고리즘은 Facebook에서 개발한 Prophet을 사용
+    * Prophet은 연간, 주별 및 일일 계절성과 휴일 효과에 맞는 가법 모델을 기반으로 시계열 데이터를 예측   
+    * 계절 효과가 강하고 여러 시즌의 과거 데이터가 있는 시계열에서 가장 잘 작동   
+    * 누락된 데이터와 추세의 변화에 ​​강하며 일반적으로 이상값을 잘 처리    
+    * https://facebook.github.io/prophet/   
+        
 
 # 
 **Tel:** 02-0000-0000 **| E-mail:** krwjang@gmail.com   
