@@ -184,7 +184,7 @@ st.plotly_chart(fig_3, use_container_width=True)
 
 st.caption("예측치 데이터")
 forecast_data = forecast_lately.iloc[-254:-1]
-st.dataframe(forecast_data.sort_value(by="ds"), ascending = False)
+st.dataframe(forecast_data.sort_values(by="ds", ascending = False))
 
 
 
