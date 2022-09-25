@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 # import FinanceDataReader as fdr
 import plotly.express as px
 from fbprophet import Prophet
-from fbprophet import plot_plotly
+# from fbprophet import plot_plotly
 
 
 # 판다스 플로팅 백앤드로 plotly 사용
@@ -147,6 +147,8 @@ df["Y"] = df["spread"]
 df.reset_index(inplace=True)
 
 df = df[["DS", "Y"]]
+
+
 
 #-------------------------------------------------------------------------------
 ## 푸터
