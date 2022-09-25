@@ -11,9 +11,13 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 # import FinanceDataReader as fdr
 import plotly.express as px
+from fbprophet import Prophet
+from fbprophet import plot_plotly
+
 
 # 판다스 플로팅 백앤드로 plotly 사용
 pd.options.plotting.backend = "plotly"
+
 
 
 # st.set_page_config(page_title='KIS FX watch',  layout='wide', page_icon=':ambulance:')
@@ -130,7 +134,7 @@ fig_1.add_vline(x="2021-12-15",line_dash="dash", line_color="orange")
 st.plotly_chart(fig_1, use_container_width=True)
 
 
-# 데이터프레임을 년, 월, 값으로 분해
+# 예측
 st.markdown("---")   # 구분 가로선
 st.write("""
 ### 1개월-3개월물 스프레드의 계절성에 주목  
