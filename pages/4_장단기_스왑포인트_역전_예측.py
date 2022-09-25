@@ -143,15 +143,22 @@ st.write("""
 * 계절적 패턴이 있지 않을까?
 """)
 
+
+
+st.markdown("---")   # 구분 가로선
+st.write("""
+### 1개월-3개월물 스프레드 예측 :crystal:  
+* 계절적 패턴이 있지 않을까?
+""")
 df_train = trans
 df_train["ds"] = pd.to_datetime(df_train.index.strftime("%Y-%m-%d"))
 df_train["y"] = df_train["spread"]
 # df_train_workday = df_train[df_train['ds'].dt.dayofweek < 5]  # 주말 제거
-df_train_workday.reset_index(inplace=True)
+df_train.reset_index(inplace=True)
 
 
 m = Prophet()
-m.fit(df_train_workday)
+m.fit(df_train)
 future = m.make_future_dataframe(periods = 252)
 forecast = m.predict(future)
 forecast = forecast[forecast['ds'].dt.dayofweek < 5]  #  주말 제거
@@ -162,8 +169,8 @@ st.plotly_chart(fig_2, use_container_width=True)
 st.dataframe(forecast)
 
 
-fig_2 = plot_components_plotly(m, forecast)
-st.plotly_chart(fig_2, use_container_width=True)
+fig_3 = plot_components_plotly(m, forecast)
+st.plotly_chart(fig_3, use_container_width=True)
 
 #-------------------------------------------------------------------------------
 ## 푸터
