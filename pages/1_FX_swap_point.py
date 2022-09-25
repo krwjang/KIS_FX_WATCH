@@ -94,10 +94,10 @@ mid.columns = ["1M", "2M", "3M", "6M", "1Y"]
 
 ## 전광판 매트릭스
 sp_date = datetime.date(mid.index[-1])
-st.markdown("### FX스왑포인트*")
-st.markdown(f"전일({sp_date}) 종가 기준")
-st.markdown("기물 / 종가가격 / 전일대비 (단위: 원)")
-st.markdown("#")
+st.markdown("### FX스왑포인트*")   
+st.markdown(f"전일({sp_date}) 종가 기준 / 기물 / 중간값(Mid) / 전일대비 (단위: 원)")
+st.markdown("* 미래에 주고 받을 환율을 현재환율(Spot)에서 얼마나 가감(premium/discount)해서 거래 할 것인지 결정")
+st.markdown("# ")
 
 col1, col2, col3, col4, col5, = st.columns(5)
 
@@ -118,8 +118,14 @@ col5.metric("1년물", f"{last_sp_1y}원", round(mid["1Y"].iloc[-1] - mid["1Y"].
 
 ## 플로팅 
 st.write("# ")
-st.write("# ")
-st.write("### 기물별(Tenor) 스왑포인트 상세 ")
+st.markdown("---")   # 구분 가로선
+st.write("""
+### FX스왑포인트 현황 상세 
+전일 종가기준 기물별 스왑포인트 Bid / Mid / Offer 값 (사자/중간/팔자, 단위: 원)
+* 거래방식
+    * **증권 통화선물** : 거래소에서 공개 거래되므로 Mid값 부근에서 시장참가자간 직접 거래 (매 1개월 짜리로 만기 연장)
+    * **은행 선물환** : 은행이 거래 상대방이므로 Mid값+신용등급 등을 감안한 마진을 포함하여 가격제시 (장단기 모두 가능)
+""")
 
 bid = pd.concat([df1["Bid"], df2["Bid"], df3["Bid"], df6["Bid"],  df12["Bid"]], axis=1)
 bid.columns = ["1M", "2M", "3M", "6M", "1Y"]
