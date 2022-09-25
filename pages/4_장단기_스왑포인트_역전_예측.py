@@ -177,14 +177,19 @@ st.write("""
 * 1개월-3개월물 스프레드 예측
 """)
 
-forecast_lately = forecast[forecast['ds'] > "2020-01-01"]
+# forecast_lately = forecast[forecast['ds'] > "2020-01-01"]
 
-fig_3 = plot_plotly(m, forecast_lately)
+fig_3 = plot_plotly(m, forecast)
+fig_3.update_traces(hovertemplate=None)
+fig_3.update_layout(hovermode="x unified")
+
 st.plotly_chart(fig_3, use_container_width=True)
 
 st.caption("예측치 데이터")
-forecast_data = forecast_lately.iloc[-254:-1]
-st.dataframe(forecast_data.sort_values(by="ds", ascending = False))
+forecast_data = forecast.iloc[-254:-1]
+forecast_data[["ds", "yhat", "yhat_lower", "yhat_upper"]].sort_values(by="ds", ascending = False, inplace=True)
+
+st.dataframe(forecast_data)
 
 
 
