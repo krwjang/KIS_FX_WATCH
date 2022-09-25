@@ -156,6 +156,11 @@ forecast = m.predict(future)
 fig_2 = plot_plotly(m, forecast)
 st.plotly_chart(fig_2, use_container_width=True)
 
+st.dataframe(forecast)
+
+
+fig_2 = plot_components_plotly(m, forecast)
+st.plotly_chart(fig_2, use_container_width=True)
 
 #-------------------------------------------------------------------------------
 ## 푸터
