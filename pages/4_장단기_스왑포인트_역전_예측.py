@@ -152,16 +152,18 @@ st.write("""
 """)
 
 # 데이터 피팅 및 예측 --------------------------------------------------
-df_train = trans
-df_train["ds"] = pd.to_datetime(df_train.index.strftime("%Y-%m-%d"))
-df_train["y"] = df_train["spread"]
-df_train.reset_index(inplace=True)
+with st.spinner('Wait for it...'):
+    df_train = trans
+    df_train["ds"] = pd.to_datetime(df_train.index.strftime("%Y-%m-%d"))
+    df_train["y"] = df_train["spread"]
+    df_train.reset_index(inplace=True)
 
-m = Prophet()
-m.fit(df_train)
-future = m.make_future_dataframe(periods = 252)
-forecast = m.predict(future)
-forecast = forecast[forecast['ds'].dt.dayofweek < 5]  #  주말 제거
+    m = Prophet()
+    m.fit(df_train)
+    future = m.make_future_dataframe(periods = 252)
+    forecast = m.predict(future)
+    forecast = forecast[forecast['ds'].dt.dayofweek < 5]  #  주말 제거
+st.success('Done!')
 # --------------------------------------------------------------------
 
 
@@ -180,7 +182,7 @@ st.write("""
 # forecast_lately = forecast[forecast['ds'] > "2020-01-01"]
 
 fig_3 = plot_plotly(m, forecast)
-fig_3.update_layout(xaxis_range=[datetime.datetime(2020, 1, 1), datetime.datetime(2023, 1, 1)])
+fig_3.update_layout(xaxis_range=['2020-01-01','2023-01-01'])
 fig_3.update_traces(hovertemplate=None)
 fig_3.update_layout(hovermode="x unified")
 
