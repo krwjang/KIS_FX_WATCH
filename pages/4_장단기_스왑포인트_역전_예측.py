@@ -147,8 +147,8 @@ st.write("""
 
 st.markdown("---")   # 구분 가로선
 st.write("""
-### 시계열 분해 (Time Series Decomposition)        
-* 추세, 연간 계절성, 요일 계절성으로 요소 분해
+### 시계열 분해 (Time-Series Decomposition)        
+추세, 연중 계절성, 요일 계절성으로 요소 분해
 """)
 
 # 데이터 피팅 및 예측 --------------------------------------------------
@@ -184,7 +184,7 @@ st.plotly_chart(fig_3, use_container_width=True)
 
 st.caption("예측치 데이터")
 forecast_data = forecast_lately.iloc[-254:-1]
-st.dataframe(forecast_data["yhat"])
+st.dataframe(forecast_data.sort_value(by="ds"), ascending = False)
 
 
 
