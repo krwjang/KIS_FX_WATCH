@@ -137,12 +137,12 @@ st.write("""
 * 계절적 패턴이 있지 않을까?
 """)
 
-# df = trans
-# df["DS"] = pd.to_datetime(df.index.strftime("%Y-%m-%d"))
-# df["Y"] = df["spread"]
-# df.reset_index(inplace=True)
+df = trans
+df["DS"] = pd.to_datetime(df.index.strftime("%Y-%m-%d"))
+df["Y"] = df["spread"]
+df.reset_index(inplace=True)
 
-# df = df[["DS", "Y"]]
+df = df[["DS", "Y"]]
 
 fig_2 = trans["spread"].plot.box(by=trans.index.day)
 st.plotly_chart(fig_2)
