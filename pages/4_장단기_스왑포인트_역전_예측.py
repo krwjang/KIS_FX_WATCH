@@ -188,7 +188,7 @@ st.plotly_chart(fig_3, use_container_width=True)
 st.caption("예측치 데이터")
 forecast_data = forecast.iloc[-254:-1]
 forecast_data[["ds", "yhat", "yhat_lower", "yhat_upper"]].sort_values(by="ds", ascending = False, inplace=True)
-forecast_data.columns = ["일자", "예측값", "예측밴드 하단", "예측밴드 상단"]
+forecast_data.columns = ["일자", "예측값", "예측밴드_하단", "예측밴드_상단"]
 
 st.dataframe(forecast_data)
 
@@ -203,7 +203,7 @@ expander = st.expander("About")
 expander.markdown("""
 이 화면의 데이터는 서울외국환중개로 부터 가져옴   
 
-* 시계열 예측 알고리즘은 Facebook에서 개발한 Prophet을 사용
+* 시계열 예측 알고리즘은 Facebook에서 개발한 오픈소스 Prophet을 사용
     * Prophet은 연간, 주별 및 일일 계절성과 휴일 효과에 맞는 가법 모델을 기반으로 시계열 데이터를 예측   
     * 계절 효과가 강하고 여러 시즌의 과거 데이터가 있는 시계열에서 가장 잘 작동   
     * 누락된 데이터와 추세의 변화에 ​​강하며 일반적으로 이상값을 잘 처리    
