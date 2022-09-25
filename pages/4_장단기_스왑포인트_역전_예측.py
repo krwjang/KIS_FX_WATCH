@@ -147,31 +147,48 @@ st.write("""
 
 st.markdown("---")   # 구분 가로선
 st.write("""
-### 1개월-3개월물 스프레드 예측 🔮  
-* 계절적 패턴이 있지 않을까?
+### 시계열 분해 (Time Series Decomposition)        
+* 추세, 연간 계절성, 요일 계절성으로 요소 분해
 """)
+
+# 데이터 피팅 및 예측 --------------------------------------------------
 df_train = trans
 df_train["ds"] = pd.to_datetime(df_train.index.strftime("%Y-%m-%d"))
 df_train["y"] = df_train["spread"]
-# df_train_workday = df_train[df_train['ds'].dt.dayofweek < 5]  # 주말 제거
 df_train.reset_index(inplace=True)
-
 
 m = Prophet()
 m.fit(df_train)
 future = m.make_future_dataframe(periods = 252)
 forecast = m.predict(future)
 forecast = forecast[forecast['ds'].dt.dayofweek < 5]  #  주말 제거
+# --------------------------------------------------------------------
 
-fig_2 = plot_plotly(m, forecast)
+
+fig_2 = plot_components_plotly(m, forecast)
 st.plotly_chart(fig_2, use_container_width=True)
 
-st.caption("예측치 데이터")
-st.dataframe(forecast["yhat"])
 
 
-fig_3 = plot_components_plotly(m, forecast)
+
+st.markdown("---")   # 구분 가로선
+st.write("""
+### 🔮 스왑포인트 역전 예측 🔮  
+* 1개월-3개월물 스프레드 예측
+""")
+
+forecast_lately = forecast[forecast['ds'] > "2020-01-01"]
+
+fig_3 = plot_plotly(m, forecast_lately)
 st.plotly_chart(fig_3, use_container_width=True)
+
+st.caption("예측치 데이터")
+forecast_data = forecast_lately.iloc[-254:-1]
+st.dataframe(forecast_data["yhat"])
+
+
+
+
 
 #-------------------------------------------------------------------------------
 ## 푸터
