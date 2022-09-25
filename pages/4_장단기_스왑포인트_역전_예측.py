@@ -146,12 +146,12 @@ st.write("""
 df_train = trans
 df_train["ds"] = pd.to_datetime(df_train.index.strftime("%Y-%m-%d"))
 df_train["y"] = df_train["spread"]
-df_train[df_train['ds'].dt.dayofweek < 5]
-df_train.reset_index(inplace=True)
+df_train_workday = df_train[df_train['ds'].dt.dayofweek < 5]
+df_train_workday.reset_index(inplace=True)
 
 
 m = Prophet()
-m.fit(df_train)
+m.fit(df_train_workday)
 future = m.make_future_dataframe(periods = 252)
 forecast = m.predict(future)
 
