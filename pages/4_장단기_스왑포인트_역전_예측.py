@@ -182,7 +182,7 @@ st.write("""
 # forecast_lately = forecast[forecast['ds'] > "2020-01-01"]
 
 fig_3 = plot_plotly(m, forecast)
-fig_3.update_layout(xaxis_range=['2020-01-01','2023-05-01'])
+fig_3.update_layout(xaxis_range=['2021-01-01','2023-05-01'])
 fig_3.update_traces(hovertemplate=None)
 fig_3.update_layout(hovermode="x unified")
 
@@ -190,7 +190,7 @@ st.plotly_chart(fig_3, use_container_width=True)
 
 st.caption("예측치 데이터")
 forecast_data = forecast.iloc[-254:-1]
-forecast_data = forecast_data[["ds", "yhat", "yhat_lower", "yhat_upper"]].sort_values(by="ds", ascending = False)
+forecast_data = forecast_data[["ds", "yhat", "yhat_lower", "yhat_upper"]].sort_values(by="ds", ascending = True)
 forecast_data.columns = ["일자", "예측값", "예측밴드_하단", "예측밴드_상단"]
 
 st.dataframe(forecast_data)
