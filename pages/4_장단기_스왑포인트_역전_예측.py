@@ -12,6 +12,8 @@ from datetime import datetime, timedelta
 # import FinanceDataReader as fdr
 import plotly.express as px
 from fbprophet import Prophet
+from fbprophet.plot import plot_plotly, plot_components_plotly
+
 # from fbprophet import plot_plotly
 
 
@@ -150,8 +152,9 @@ m = Prophet()
 m.fit(df_train)
 future = m.make_future_dataframe(periods = 252)
 forecast = m.predict(future)
-st.text(forecast[["ds", "yhat", "yhat_lower", "yhat_upper"]].tail())
 
+fig_2 = plot_plotly(m, forecast)
+st.plotly_chart(fig_2, use_container_width=True)
 
 
 #-------------------------------------------------------------------------------
