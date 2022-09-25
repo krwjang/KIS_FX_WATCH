@@ -146,7 +146,9 @@ st.write("""
 df_train = trans
 df_train["ds"] = pd.to_datetime(df_train.index.strftime("%Y-%m-%d"))
 df_train["y"] = df_train["spread"]
+df_train[df_train['ds'].dt.dayofweek < 5]
 df_train.reset_index(inplace=True)
+
 
 m = Prophet()
 m.fit(df_train)
