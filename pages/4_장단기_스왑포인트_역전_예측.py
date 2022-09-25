@@ -141,13 +141,15 @@ st.write("""
 * 계절적 패턴이 있지 않을까?
 """)
 
-df = trans
-df["DS"] = pd.to_datetime(df.index.strftime("%Y-%m-%d"))
-df["Y"] = df["spread"]
-df.reset_index(inplace=True)
+df_train = trans
+df_train["DS"] = pd.to_datetime(df_train.index.strftime("%Y-%m-%d"))
+df_train["Y"] = df_train["spread"]
+df_train.reset_index(inplace=True)
 
-df = df[["DS", "Y"]]
-
+m = Prophet()
+m.fit(df_train)
+future = m.make_future_dataframe(period = 252)
+forecast = m.predict(future)
 
 
 #-------------------------------------------------------------------------------
