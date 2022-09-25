@@ -93,7 +93,7 @@ st.write("""
 20거래일 기준 달러대비 강세순 / 높을 수록 해당통화 강세 / DX는 달러인덱스 (단위: %)
 """)
 
-code = ['KRW=X','JPY=X', "EUR=X", "CNY=X", "AUD=X", "CHF=X", "DX-Y.NYB"]
+code = ['KRW=X','JPY=X', "EUR=X", "CNY=X", "AUD=X", "GBP=X", "CHF=X", "DX-Y.NYB"]
 
 chg_data = yf.download(code , start=end_date - timedelta(weeks=52), end=end_date)
 chg_data = chg_data["Close"]
