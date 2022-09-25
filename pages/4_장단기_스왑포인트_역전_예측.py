@@ -142,8 +142,8 @@ st.write("""
 """)
 
 df_train = trans
-df_train["DS"] = pd.to_datetime(df_train.index.strftime("%Y-%m-%d"))
-df_train["Y"] = df_train["spread"]
+df_train["ds"] = pd.to_datetime(df_train.index.strftime("%Y-%m-%d"))
+df_train["y"] = df_train["spread"]
 df_train.reset_index(inplace=True)
 
 m = Prophet()
