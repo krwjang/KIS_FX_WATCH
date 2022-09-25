@@ -180,7 +180,7 @@ st.write("""
 # forecast_lately = forecast[forecast['ds'] > "2020-01-01"]
 
 fig_3 = plot_plotly(m, forecast)
-fig_3.update_layout(xaxis_range=[datetime.datetime(2020, 1, 1), (datetime.now()+timedelta(days=200))])
+fig_3.update_layout(xaxis_range=[datetime.datetime(2020, 1, 1), datetime.datetime(2023, 1, 1)])
 fig_3.update_traces(hovertemplate=None)
 fig_3.update_layout(hovermode="x unified")
 
