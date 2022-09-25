@@ -148,10 +148,6 @@ df.reset_index(inplace=True)
 
 df = df[["DS", "Y"]]
 
-fig_2 = trans["spread"].plot.box(by=trans.index.day)
-st.plotly_chart(fig_2)
-
-
 #-------------------------------------------------------------------------------
 ## 푸터
 st.markdown("---")   # 구분 가로선
