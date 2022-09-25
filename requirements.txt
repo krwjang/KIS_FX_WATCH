@@ -3,5 +3,6 @@ pandas==1.4.4
 yfinance==0.1.74
 plotly
 seaborn
+numpy
 pystan == 2.19.1.1
 fbprophet == 0.7.1
