@@ -146,7 +146,7 @@ st.write("""
 df_train = trans
 df_train["ds"] = pd.to_datetime(df_train.index.strftime("%Y-%m-%d"))
 df_train["y"] = df_train["spread"]
-df_train_workday = df_train[df_train['ds'].dt.dayofweek < 5]
+# df_train_workday = df_train[df_train['ds'].dt.dayofweek < 5]  # 주말 제거
 df_train_workday.reset_index(inplace=True)
 
 
@@ -154,6 +154,7 @@ m = Prophet()
 m.fit(df_train_workday)
 future = m.make_future_dataframe(periods = 252)
 forecast = m.predict(future)
+forecast = forecast[forecast['ds'].dt.dayofweek < 5]  #  주말 제거
 
 fig_2 = plot_plotly(m, forecast)
 st.plotly_chart(fig_2, use_container_width=True)
