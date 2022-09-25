@@ -136,7 +136,7 @@ fig_1.add_vline(x="2021-12-15",line_dash="dash", line_color="orange")
 st.plotly_chart(fig_1, use_container_width=True)
 
 
-# 예측
+## 예측
 st.markdown("---")   # 구분 가로선
 st.write("""
 ### 1개월-3개월물 스프레드의 계절성에 주목  
@@ -147,7 +147,7 @@ st.write("""
 
 st.markdown("---")   # 구분 가로선
 st.write("""
-### 1개월-3개월물 스프레드 예측 :crystal:  
+### 1개월-3개월물 스프레드 예측 🔮  
 * 계절적 패턴이 있지 않을까?
 """)
 df_train = trans
@@ -166,7 +166,8 @@ forecast = forecast[forecast['ds'].dt.dayofweek < 5]  #  주말 제거
 fig_2 = plot_plotly(m, forecast)
 st.plotly_chart(fig_2, use_container_width=True)
 
-st.dataframe(forecast)
+st.caption("예측치 데이터")
+st.dataframe(forecast["yhat"])
 
 
 fig_3 = plot_components_plotly(m, forecast)
