@@ -148,7 +148,7 @@ st.write("""
 st.markdown("---")   # 구분 가로선
 st.write("""
 ### 시계열 분해 (Time-Series Decomposition)        
-추세, 연중 계절성, 요일 계절성으로 요소 분해
+단변량 시계열 분석 라이브러리 Prophet을 활용하여 추세, 연중 계절성, 요일 계절성으로 요소 분해
 """)
 
 # 데이터 피팅 및 예측 --------------------------------------------------
@@ -187,8 +187,8 @@ st.plotly_chart(fig_3, use_container_width=True)
 
 st.caption("예측치 데이터")
 forecast_data = forecast.iloc[-254:-1]
-forecast_data[["ds", "yhat", "yhat_lower", "yhat_upper"]].sort_values(by="ds", ascending = False, inplace=True)
-# forecast_data.columns = ["일자", "예측값", "예측밴드_하단", "예측밴드_상단"]
+forecast_data = forecast_data[["ds", "yhat", "yhat_lower", "yhat_upper"]].sort_values(by="ds", ascending = False)
+forecast_data.columns = ["일자", "예측값", "예측밴드_하단", "예측밴드_상단"]
 
 st.dataframe(forecast_data)
 
