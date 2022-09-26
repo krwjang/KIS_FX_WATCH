@@ -68,19 +68,26 @@ fig_1 = fx.plot.line(labels={
                      "variable": "선택 통화"
                  })
 fig_1.layout.yaxis.tickformat = ',.1%'
+fig_1.update_layout(legend=dict(
+    yanchor="top",
+    y=0.99,
+    xanchor="left",
+    x=0.01
+))
+fig_1.update_layout(height=600)
 
-st.plotly_chart(fig_1, use_container_width=True)
+col1, col2 = st.columns((3,1))
+col1.plotly_chart(fig_1, use_container_width=True)
 
 # 상관계수
-st.caption("### 상관계수 (Correlation Coefficient)")
-col1, col2 = st.columns(2)
-with col1:
+with col2:
+    st.write("#")
+    st.caption("### 상관계수 (Correlation Coefficient)")
     roll = st.selectbox("측정 단위 일수*", (2, 5, 10, 20), 1)
-
-pct_chg = data["Close"].pct_change()
-roll_pct = pct_chg.rolling(roll).sum()
-correl = roll_pct.corr().loc["KRW=X"]
-st.dataframe(correl)
+    pct_chg = data["Close"].pct_change()
+    roll_pct = pct_chg.rolling(roll).sum()
+    correl = roll_pct.corr().loc["KRW=X"]
+    st.dataframe(correl)
 
 
 
