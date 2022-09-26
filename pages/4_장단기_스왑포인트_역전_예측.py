@@ -139,17 +139,29 @@ st.plotly_chart(fig_1, use_container_width=True)
 ## 예측
 st.markdown("---")   # 구분 가로선
 st.write("""
-### 1개월-3개월물 스프레드의 계절성에 주목  
-* 계절적 패턴이 있지 않을까?
+### 1개월-3개월물 스프레드의 계절성(seasonality)에 주목  
+연도별, 월평균 스왑포인트 스프레드 히트맵 (단위: 원)   
+* 분기월에 스프레드가 낮아지는 경향이 있음   
+* 특히 2016년 이후, 12월 장단기 스프레드 역전이 뚜렷하게 나타남 
 """)
 
+cal = trans[["spread"]].resample("M").mean()
+cal["year"] = cal.index.year
+cal["month"] = cal.index.month
+cal_table = cal.pivot("year", "month", "spread")
 
+fig_5 = px.imshow(cal_table, text_auto=".2f", aspect="auto", color_continuous_scale='Bluered')
+fig_5.update_layout(height=600)
+
+st.plotly_chart(fig_5, use_container_width=True)
 
 st.markdown("---")   # 구분 가로선
 st.write("""
 ### 시계열 분해 (Time-Series Decomposition)        
 단변량 시계열 분석 라이브러리 Prophet을 활용하여 추세, 연중 계절성, 요일 계절성으로 요소 분해
 """)
+
+
 
 # 데이터 피팅 및 예측 --------------------------------------------------
 with st.spinner('Wait for it...'):
