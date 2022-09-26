@@ -201,12 +201,12 @@ fig_3.update_layout(hovermode="x unified")
 
 st.plotly_chart(fig_3, use_container_width=True)
 
-st.caption("예측치 데이터")
-forecast_data = forecast.iloc[-254:-1]
-forecast_data = forecast_data[["ds", "yhat", "yhat_lower", "yhat_upper"]].sort_values(by="ds", ascending = True)
-forecast_data.columns = ["일자", "예측값", "예측밴드_하단", "예측밴드_상단"]
+# st.caption("예측치 데이터")
+# forecast_data = forecast.iloc[-254:-1]
+# forecast_data = forecast_data[["ds", "yhat", "yhat_lower", "yhat_upper"]].sort_values(by="ds", ascending = True)
+# forecast_data.columns = ["일자", "예측값", "예측밴드_하단", "예측밴드_상단"]
 
-st.dataframe(forecast_data)
+# st.dataframe(forecast_data)
 
 
 
