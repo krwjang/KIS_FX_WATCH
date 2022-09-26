@@ -1,6 +1,6 @@
 beautifulsoup4
 yfinance
-
+numpy
 
 pandas >= 1.3.5
 jupyter >= 1.0.0
