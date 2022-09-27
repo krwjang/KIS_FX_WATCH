@@ -3,6 +3,7 @@
 Created on 2022
 @author: JB
 """
+from sys import call_tracing
 import streamlit as st
 import pandas as pd
 # import yfinance as yf
@@ -11,8 +12,8 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 # import FinanceDataReader as fdr
 import plotly.express as px
-from fbprophet import Prophet
-from fbprophet.plot import plot_plotly, plot_components_plotly
+# from fbprophet import Prophet
+# from fbprophet.plot import plot_plotly, plot_components_plotly
 
 # from fbprophet import plot_plotly
 
@@ -155,13 +156,14 @@ fig_5.update_layout(height=600)
 
 st.plotly_chart(fig_5, use_container_width=True)
 
+
+
+
 st.markdown("---")   # 구분 가로선
 st.write("""
 ### 시계열 분해 (Time-Series Decomposition)        
 단변량 시계열 분석 라이브러리 Prophet을 활용하여 추세, 연중 계절성, 요일 계절성으로 요소 분해
 """)
-
-
 
 # 데이터 피팅 및 예측 --------------------------------------------------
 with st.spinner('Wait for it...'):
@@ -201,12 +203,12 @@ fig_3.update_layout(hovermode="x unified")
 
 st.plotly_chart(fig_3, use_container_width=True)
 
-# st.caption("예측치 데이터")
-# forecast_data = forecast.iloc[-254:-1]
-# forecast_data = forecast_data[["ds", "yhat", "yhat_lower", "yhat_upper"]].sort_values(by="ds", ascending = True)
-# forecast_data.columns = ["일자", "예측값", "예측밴드_하단", "예측밴드_상단"]
+st.caption("예측치 데이터")
+forecast_data = forecast.iloc[-200:-1]
+forecast_data = forecast_data[["ds", "yhat", "yhat_lower", "yhat_upper"]].sort_values(by="ds", ascending = True)
+forecast_data.columns = ["일자", "예측값", "예측밴드_하단", "예측밴드_상단"]
 
-# st.dataframe(forecast_data)
+st.dataframe(forecast_data)
 
 
 
@@ -228,5 +230,5 @@ expander.markdown("""
 
 # 
 **Tel:** 02-0000-0000 **| E-mail:** krwjang@gmail.com   
----솔루션영업부 장 백 차장 a.k.a. 킬리만자로의 표범
+장 백 차장 a.k.a. 킬리만자로의 표범
 """)

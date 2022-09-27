@@ -3,6 +3,7 @@
 Created on 2022
 @author: JB
 """
+from unittest import result
 import streamlit as st
 import pandas as pd
 # import yfinance as yf
@@ -33,8 +34,8 @@ st.title("KIS FX Watch  :leopard:")
 #--------------------------------------------------------------------------------------------------------------
 
 ## 데이터 로드
-@st.cache
 # 개별 스왑포인트 크롤링 함수
+# @st.cache(persist=True, max_entries=100)
 def get_fxswap(exp="1M", year=1, end="2022-01-01"):
     '''만기, 기간(연) 입력하여 개별 스왑포인트 불러오기'''
     years = 365 * year
@@ -80,15 +81,23 @@ def get_fxswap(exp="1M", year=1, end="2022-01-01"):
 year = 0.05
 now = datetime.now()
 
-df1 = get_fxswap(exp="1M", year=year, end=now)
-df2 = get_fxswap(exp="2M", year=year, end=now)
-df3 = get_fxswap(exp="3M", year=year, end=now)
-df6 = get_fxswap(exp="6M", year=year, end=now)
-df12 = get_fxswap(exp="1Y", year=year, end=now)
+@st.cache(persist=True, max_entries=100)
+def get_fxswaps(year=year, end=now, price_type="Mid"):
+    df1 = get_fxswap(exp="1M", year=year, end=end)
+    df2 = get_fxswap(exp="2M", year=year, end=end)
+    df3 = get_fxswap(exp="3M", year=year, end=end)
+    df6 = get_fxswap(exp="6M", year=year, end=end)
+    df12 = get_fxswap(exp="1Y", year=year, end=end)
 
-mid = pd.concat([df1["Mid"], df2["Mid"], df3["Mid"], df6["Mid"],  df12["Mid"]], axis=1)
-mid.columns = ["1M", "2M", "3M", "6M", "1Y"]
+    result = pd.concat([df1[price_type], df2[price_type], df3[price_type], df6[price_type],  df12[price_type]], axis=1)
+    result.columns = ["1M", "2M", "3M", "6M", "1Y"]
 
+    return result 
+
+
+# 데이터 로드
+
+mid = get_fxswaps(price_type="Mid")
 
 #-------------------------------------------------------------------------------
 
@@ -127,18 +136,11 @@ st.write("""
     * **은행 선물환** : 은행이 거래 상대방이므로 Mid값+신용등급 등을 감안한 마진을 포함하여 가격제시 (장단기 모두 가능)
 """)
 
-bid = pd.concat([df1["Bid"], df2["Bid"], df3["Bid"], df6["Bid"],  df12["Bid"]], axis=1)
-bid.columns = ["1M", "2M", "3M", "6M", "1Y"]
-
-mid = pd.concat([df1["Mid"], df2["Mid"], df3["Mid"], df6["Mid"],  df12["Mid"]], axis=1)
-mid.columns = ["1M", "2M", "3M", "6M", "1Y"]
-
-offer = pd.concat([df1["Offer"], df2["Offer"], df3["Offer"], df6["Offer"],  df12["Offer"]], axis=1)
-offer.columns = ["1M", "2M", "3M", "6M", "1Y"]
+bid = get_fxswaps(price_type="Bid")
+offer = get_fxswaps(price_type="Offer")
 
 sp_snap = pd.DataFrame([offer.iloc[-1], mid.iloc[-1], bid.iloc[-1]]).T
 sp_snap.columns = ["Offer", "Mid", "Bid"]
-
 
 
 fig = sp_snap.plot(kind="line", markers=True, text = "value", labels={
@@ -188,5 +190,5 @@ expander.markdown("""
     * 긴 만기 : 대표적으로 은행 선물환 / 만기까지 스왑포인트 고정 / 불확실성 없는 대신 헷지 비용 높음 (이후 섹션에서 논의)
 #
 **Tel:** 02-0000-0000 **| E-mail:** krwjang@gmail.com   
---------부 장 백 차장 a.k.a. 킬리만자로의 표범
+장 백 차장 a.k.a. 킬리만자로의 표범
 """)

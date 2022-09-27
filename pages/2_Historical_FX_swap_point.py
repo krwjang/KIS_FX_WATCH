@@ -43,7 +43,7 @@ year = st.sidebar.slider("기간 설정", 1, 10, 1)
 
 ## 데이터 로드
 # 개별 스왑포인트 크롤링 함수
-@st.cache(persist=True, max_entries=100)
+# @st.cache(persist=True, max_entries=100)
 def get_fxswap(exp="1M", year=1, end="2022-01-01"):
     '''만기, 기간(연) 입력하여 개별 스왑포인트 불러오기'''
     years = 365 * year
@@ -88,15 +88,23 @@ def get_fxswap(exp="1M", year=1, end="2022-01-01"):
 
 now = datetime.now()
 
-df1 = get_fxswap(exp="1M", year=year, end=now)
-df2 = get_fxswap(exp="2M", year=year, end=now)
-df3 = get_fxswap(exp="3M", year=year, end=now)
-df6 = get_fxswap(exp="6M", year=year, end=now)
-df12 = get_fxswap(exp="1Y", year=year, end=now)
+@st.cache(persist=True, max_entries=100)
+def get_fxswaps(year=year, end=now, price_type="Mid"):
+    df1 = get_fxswap(exp="1M", year=year, end=end)
+    df2 = get_fxswap(exp="2M", year=year, end=end)
+    df3 = get_fxswap(exp="3M", year=year, end=end)
+    df6 = get_fxswap(exp="6M", year=year, end=end)
+    df12 = get_fxswap(exp="1Y", year=year, end=end)
 
-mid = pd.concat([df1["Mid"], df2["Mid"], df3["Mid"], df6["Mid"],  df12["Mid"]], axis=1)
-mid.columns = ["1M", "2M", "3M", "6M", "1Y"]
+    result = pd.concat([df1[price_type], df2[price_type], df3[price_type], df6[price_type],  df12[price_type]], axis=1)
+    result.columns = ["1M", "2M", "3M", "6M", "1Y"]
 
+    return result 
+
+
+# 데이터 로드
+
+mid = get_fxswaps(price_type="Mid")
 
 #-------------------------------------------------------------------------------
 
@@ -146,5 +154,5 @@ expander.markdown("""
 
 
 **Tel:** 02-0000-0000 **| E-mail:** krwjang@gmail.com   
----솔루션영업부 장 백 차장 a.k.a. 킬리만자로의 표범
+장 백 차장 a.k.a. 킬리만자로의 표범
 """)
