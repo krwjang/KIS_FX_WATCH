@@ -86,7 +86,6 @@ def get_fxswap(exp="1M", year=1, end="2022-01-01"):
     return df
 
 
-year = 1
 now = datetime.now()
 
 df1 = get_fxswap(exp="1M", year=year, end=now)
