@@ -208,7 +208,7 @@ forecast_data = forecast.iloc[-200:-1]
 forecast_data = forecast_data[["ds", "yhat", "yhat_lower", "yhat_upper"]].sort_values(by="ds", ascending = True)
 forecast_data.columns = ["일자", "예측값", "예측밴드_하단", "예측밴드_상단"]
 
-st.dataframe(forecast_data)
+# st.dataframe(forecast_data)
 
 
 
