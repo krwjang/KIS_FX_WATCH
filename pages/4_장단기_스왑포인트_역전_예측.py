@@ -12,8 +12,8 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 # import FinanceDataReader as fdr
 import plotly.express as px
-from fbprophet import Prophet
-from fbprophet.plot import plot_plotly, plot_components_plotly
+from prophet import Prophet
+from prophet.plot import plot_plotly, plot_components_plotly
 
 # from fbprophet import plot_plotly
 
