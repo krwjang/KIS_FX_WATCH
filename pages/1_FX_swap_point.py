@@ -34,7 +34,7 @@ st.title("KIS FX Watch  :leopard:")
 
 ## 데이터 로드
 # 개별 스왑포인트 크롤링 함수
-# @st.cache(persist=True, max_entries=100)
+@st.cache(persist=True, max_entries=100)
 def get_fxswap(exp="1M", year=1, end="2022-01-01"):
     '''만기, 기간(연) 입력하여 개별 스왑포인트 불러오기'''
     years = 365 * year
