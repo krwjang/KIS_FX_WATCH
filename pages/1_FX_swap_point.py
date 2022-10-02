@@ -3,7 +3,6 @@
 Created on 2022
 @author: JB
 """
-from unittest import result
 import streamlit as st
 import pandas as pd
 # import yfinance as yf
