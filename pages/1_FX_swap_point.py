@@ -34,7 +34,7 @@ st.title("KIS FX Watch  :leopard:")
 
 ## 데이터 로드
 # 개별 스왑포인트 크롤링 함수
-@st.cache(persist=True, max_entries=100)
+# @st.cache(persist=True, max_entries=100)
 def get_fxswap(exp="1M", year=1, end="2022-01-01"):
     '''만기, 기간(연) 입력하여 개별 스왑포인트 불러오기'''
     years = 365 * year
@@ -82,7 +82,7 @@ year = 0.02
 now = datetime.now()
 
 ## 전체 기물별 스왑포인트 미드값 데이터프레임으로 반환 함수
-@st.cache(persist=True, max_entries=10)
+@st.cache(persist=True, max_entries=100)
 def get_fxswaps(year=year, end=now, price_type="Mid"):
     df1 = get_fxswap(exp="1M", year=year, end=end)
     df2 = get_fxswap(exp="2M", year=year, end=end)
