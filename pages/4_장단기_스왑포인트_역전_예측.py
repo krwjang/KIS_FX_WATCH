@@ -45,7 +45,7 @@ st.markdown("---")   # 구분 가로선
 def get_fxswap(exp="1M", year=1):
     '''만기, 기간(연) 입력하여 개별 스왑포인트 불러오기'''
     years = 365 * year
-    now = pd.to_datetime(datetime.now()) + timedelta(days=2)
+    now = pd.to_datetime(datetime.now()) + timedelta(days=5)
     today = now.strftime(format="%Y-%m-%d")
     ago = "2010-01-01"  # 그냥 시작일 강제지정
 
@@ -93,7 +93,6 @@ mid.columns = ["1M", "3M"]
 trans = pd.DataFrame()
 trans["1M"] = mid["1M"]
 trans["3M"] = mid["3M"] / 3
-
 
 ## 플로팅
 
