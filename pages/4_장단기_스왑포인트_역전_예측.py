@@ -3,7 +3,6 @@
 Created on 2022
 @author: JB
 """
-from sys import call_tracing
 import streamlit as st
 import pandas as pd
 # import yfinance as yf

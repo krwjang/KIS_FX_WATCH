@@ -3,7 +3,6 @@
 Created on 2022
 @author: JB
 """
-from distutils.command.install_egg_info import to_filename
 import streamlit as st
 import pandas as pd
 # import yfinance as yf
