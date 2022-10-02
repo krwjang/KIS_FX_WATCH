@@ -14,8 +14,6 @@ import plotly.express as px
 from prophet import Prophet
 from prophet.plot import plot_plotly, plot_components_plotly
 
-# from fbprophet import plot_plotly
-
 
 # 판다스 플로팅 백앤드로 plotly 사용
 pd.options.plotting.backend = "plotly"
@@ -43,7 +41,7 @@ st.markdown("---")   # 구분 가로선
 
 ## 데이터 로드
 # 개별 스왑포인트 크롤링 함수
-@st.cache(persist=True, max_entries=100)
+@st.cache(persist=True, max_entries=10)
 def get_fxswap(exp="1M", year=1):
     '''만기, 기간(연) 입력하여 개별 스왑포인트 불러오기'''
     years = 365 * year
@@ -85,12 +83,12 @@ def get_fxswap(exp="1M", year=1):
     return df
 
 
+# 1개월, 3개월만 수집
 df1 = get_fxswap(exp="1M")
 df3 = get_fxswap(exp="3M")
 
 mid = pd.concat([df1["Mid"], df3["Mid"]], axis=1)
 mid.columns = ["1M", "3M"]
-
 
 trans = pd.DataFrame()
 trans["1M"] = mid["1M"]
@@ -145,13 +143,13 @@ st.write("""
 * 특히 2016년 이후, 12월 장단기 스프레드 역전이 뚜렷하게 나타남 
 """)
 
+# 스프레드를 월별로 끊어서 평균값 계산
 cal = trans[["spread"]].resample("M").mean()
 cal["year"] = cal.index.year
 cal["month"] = cal.index.month
 cal_table = cal.pivot("year", "month", "spread")
 
 fig_5 = px.imshow(cal_table, text_auto=".2f", aspect="auto", color_continuous_scale='Bluered')
-
 fig_5.update_layout(height=600)
 
 st.plotly_chart(fig_5, use_container_width=True)
@@ -165,7 +163,7 @@ st.write("""
 단변량 시계열 분석 라이브러리 Prophet을 활용하여 추세, 연중 계절성, 요일 계절성으로 요소 분해
 """)
 
-# 데이터 피팅 및 예측 --------------------------------------------------
+# 데이터 모델 피팅 및 예측 --------------------------------------------------
 with st.spinner('Wait for it...'):
     df_train = trans
     df_train["ds"] = pd.to_datetime(df_train.index.strftime("%Y-%m-%d"))

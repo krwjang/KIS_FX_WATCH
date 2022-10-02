@@ -19,7 +19,7 @@ pd.options.plotting.backend = "plotly"
 
 # st.set_page_config(page_title='KIS FX watch',  layout='wide', page_icon=':ambulance:')
 
-
+# 기본 페이지 셋업
 st.set_page_config(
     page_title='KIS FX Watch!',  
     layout='wide', 
@@ -39,9 +39,8 @@ st.markdown("---")   # 구분 가로선
 
 ## 사이드바
 st.sidebar.header("통화, 날짜 범위 지정")
-
 name = st.sidebar.multiselect("비교 통화 (복수 선택 가능)", ['KRW=X','JPY=X', "EUR=X", "CNY=X", "AUD=X", "GBP=X", "CHF=X", "DX-Y.NYB"], ['KRW=X', "DX-Y.NYB"])
-
+# 사이드바에 불러올 데이터 기간 설정
 now = datetime.now().date()
 ago = now - timedelta(days=90)
 start_date = st.sidebar.date_input("시작 날짜 (기본값: 3M)", ago)
@@ -49,7 +48,7 @@ end_date = st.sidebar.date_input("끝 날짜", now) + timedelta(days=1)
 
 
 
-### 데이터 로딩 및 상대강도 비교 차트
+## 데이터 로딩 및 상대강도 비교 차트
 
 data = yf.download(name , start=start_date, end=end_date)
 data.fillna(method='ffill', inplace=True)  # 결측값 뒤로 채우기
@@ -92,7 +91,7 @@ with col2:
 
 
 
-# 두번째 차트 기간수익률
+## 두번째 차트 기간수익률
 st.write("# ")
 st.markdown("---")   # 구분 가로선
 st.write("""

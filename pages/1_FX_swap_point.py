@@ -46,6 +46,7 @@ def get_fxswap(exp="1M", year=1, end="2022-01-01"):
     site = "http://www.smbs.biz"
     path = f"/Exchange/FxSwap_xml.jsp?arr_value={exp}_{start_date}_{end_date} HTTP/1.1"
 
+    # 서울외국환중개 크롤링시 아래 헤더를 넣어주지 않으면 차단됨
     header = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36",
         "X-Requested-By": "FusionCharts",
@@ -76,11 +77,12 @@ def get_fxswap(exp="1M", year=1, end="2022-01-01"):
 
     return df
 
-
-year = 0.05
+# 최소한의 기간만 불러오기
+year = 0.02
 now = datetime.now()
 
-@st.cache(persist=True, max_entries=100)
+## 전체 기물별 스왑포인트 미드값 데이터프레임으로 반환 함수
+@st.cache(persist=True, max_entries=10)
 def get_fxswaps(year=year, end=now, price_type="Mid"):
     df1 = get_fxswap(exp="1M", year=year, end=end)
     df2 = get_fxswap(exp="2M", year=year, end=end)
@@ -94,8 +96,7 @@ def get_fxswaps(year=year, end=now, price_type="Mid"):
     return result 
 
 
-# 데이터 로드
-
+## 데이터 로드
 mid = get_fxswaps(price_type="Mid")
 
 #-------------------------------------------------------------------------------
@@ -124,7 +125,7 @@ col5.metric("1년물", f"{last_sp_1y}원", round(mid["1Y"].iloc[-1] - mid["1Y"].
 
 
 
-## 플로팅 
+## 스왑포인트 스냅샷 플로팅 
 st.write("# ")
 st.markdown("---")   # 구분 가로선
 st.write("""
@@ -134,14 +135,15 @@ st.write("""
     * **증권 통화선물** : 거래소에서 공개 거래되므로 Mid값 부근에서 시장참가자간 직접 거래 (매 1개월 짜리로 만기 연장)
     * **은행 선물환** : 은행이 거래 상대방이므로 Mid값+신용등급 등을 감안한 마진을 포함하여 가격제시 (장단기 모두 가능)
 """)
-
+# 비드, 오퍼 데이터 로드
 bid = get_fxswaps(price_type="Bid")
 offer = get_fxswaps(price_type="Offer")
 
+# 행열 변환
 sp_snap = pd.DataFrame([offer.iloc[-1], mid.iloc[-1], bid.iloc[-1]]).T
 sp_snap.columns = ["Offer", "Mid", "Bid"]
 
-
+# 플로팅
 fig = sp_snap.plot(kind="line", markers=True, text = "value", labels={
                      "index": "기물",
                      "value": "스왑포인트(원)",

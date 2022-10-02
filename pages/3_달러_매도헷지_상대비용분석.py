@@ -88,7 +88,7 @@ def get_fxswap(exp="1M", year=1, end="2022-01-01"):
 
 now = datetime.now()
 
-@st.cache(persist=True, max_entries=100)
+@st.cache(persist=True, max_entries=10)
 def get_fxswaps(year=year, end=now, price_type="Mid"):
     df1 = get_fxswap(exp="1M", year=year, end=end)
     df2 = get_fxswap(exp="2M", year=year, end=end)
@@ -118,7 +118,7 @@ st.write("""
 * 대부분의 기간에서는 만기가 짧은 순으로 가격이 높음 → **높을수록 매도자 유리**
 * 단, 달러 단기자금 수요가 급증하게 되면 **장단기 스왑포인트 역전** 발생 → 일시적인 단기물 매도자 불리
 """)
-
+# 1개월 단위로 환산
 trans = pd.DataFrame()
 trans["1M"] = mid["1M"]
 trans["2M"] = mid["2M"] / 2

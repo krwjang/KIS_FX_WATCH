@@ -36,7 +36,7 @@ st.markdown("---")   # 구분 가로선
 
 ## 사이드바
 st.sidebar.header("불러올 데이터 기간(년)")
-year = st.sidebar.slider("기간 설정", 1, 10, 1)
+year = st.sidebar.slider("기간 설정", 1, 10, 1)  # 기간 설정 슬라이더
 
 
 
@@ -87,7 +87,7 @@ def get_fxswap(exp="1M", year=1, end="2022-01-01"):
 
 now = datetime.now()
 
-@st.cache(persist=True, max_entries=100)
+@st.cache(persist=True, max_entries=10)
 def get_fxswaps(year=year, end=now, price_type="Mid"):
     df1 = get_fxswap(exp="1M", year=year, end=end)
     df2 = get_fxswap(exp="2M", year=year, end=end)
@@ -130,7 +130,7 @@ fig_1.add_hline(y=0)
 fig_1.update_layout(height=600)
 st.plotly_chart(fig_1, use_container_width=True)
 
-## 테이블
+## 데이터 표
 st.caption("### 최근 100일 스왑포인트 데이터")
 tail = mid.tail(100)
 tail["Date"] = pd.to_datetime(tail.index).strftime("%Y-%m-%d")
