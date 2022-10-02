@@ -168,7 +168,7 @@ st.write("# ")
 st.markdown("---")   # 구분 가로선
 expander = st.expander("About")
 expander.markdown("""
-본 화면의 데이터는 Yahoo Finance 및 Investing.com로 부터 가져오며 티커은 Yahoo Finance 참조   
+본 화면의 데이터는 Yahoo Finance 및 Investing.com로 부터 가져오며 티커는 Yahoo Finance 참조   
 CFD 시세가 사용되므로 국내 현물환율과 미미한 차이가 발생할 수 있음
 
 * **상관계수 측정 단위 일수**   

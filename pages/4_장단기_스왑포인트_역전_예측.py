@@ -152,6 +152,7 @@ cal["month"] = cal.index.month
 cal_table = cal.pivot("year", "month", "spread")
 
 fig_5 = px.imshow(cal_table, text_auto=".2f", aspect="auto", color_continuous_scale='Bluered')
+
 fig_5.update_layout(height=600)
 
 st.plotly_chart(fig_5, use_container_width=True)
