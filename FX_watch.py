@@ -73,6 +73,8 @@ fig_1.update_layout(legend=dict(
     xanchor="left",
     x=0.01
 ))
+fig_1.update_traces(hovertemplate=None)
+fig_1.update_layout(hovermode="x unified")
 fig_1.update_layout(height=600)
 
 col1, col2 = st.columns((3,1))
