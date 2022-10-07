@@ -55,7 +55,7 @@ data.fillna(method='ffill', inplace=True)  # 결측값 뒤로 채우기
 
 fx = data["Close"] / data["Close"].iloc[0] -1
 
-st.dataframe(fx)
+st.dataframe(data)
 
 st.write("""
 ### 환율 변동추이 비교   
