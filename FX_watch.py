@@ -52,10 +52,10 @@ end_date = st.sidebar.date_input("끝 날짜", now) + timedelta(days=1)
 
 data = yf.download(name , start=start_date, end=end_date)
 data.fillna(method='ffill', inplace=True)  # 결측값 뒤로 채우기
+data.fillna(method='bfill', inplace=True)  # 결측값 앞으로 채우기
 
 fx = data["Close"] / data["Close"].iloc[0] -1
 
-st.dataframe(data)
 
 st.write("""
 ### 환율 변동추이 비교   
