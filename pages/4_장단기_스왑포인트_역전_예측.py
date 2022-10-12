@@ -41,11 +41,11 @@ st.markdown("---")   # 구분 가로선
 
 ## 데이터 로드
 # 개별 스왑포인트 크롤링 함수
-@st.cache(persist=True, max_entries=100)
+# @st.cache()
 def get_fxswap(exp="1M", year=1):
     '''만기, 기간(연) 입력하여 개별 스왑포인트 불러오기'''
     years = 365 * year
-    now = pd.to_datetime(datetime.now()) + timedelta(days=5)
+    now = pd.to_datetime(datetime.now()) + timedelta(days=3)
     today = now.strftime(format="%Y-%m-%d")
     ago = "2010-01-01"  # 그냥 시작일 강제지정
 
