@@ -38,8 +38,6 @@ st.markdown("---")   # 구분 가로선
 
 
 #--------------------------------------------------------------------------------------------------------------
-
-## 데이터 로드
 # 개별 스왑포인트 크롤링 함수
 # @st.cache()
 def get_fxswap(exp="1M", start="2010-01-01"):
@@ -102,7 +100,6 @@ st.write("""
 try:
     trans = pd.read_pickle("trans.pkl")
     
-    
 except:
     df1 = get_fxswap(exp="1M")
     df3 = get_fxswap(exp="3M")
@@ -114,7 +111,7 @@ except:
     trans["1M"] = mid["1M"]
     trans["3M"] = mid["3M"] / 3
     
-    pd.to_pickle("trans.pkl")
+    trans.to_pickle("trans.pkl")
 
 
 
