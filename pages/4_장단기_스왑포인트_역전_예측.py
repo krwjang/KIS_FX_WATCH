@@ -42,15 +42,14 @@ st.markdown("---")   # 구분 가로선
 ## 데이터 로드
 # 개별 스왑포인트 크롤링 함수
 # @st.cache()
-def get_fxswap(exp="1M", year=1):
-    '''만기, 기간(연) 입력하여 개별 스왑포인트 불러오기'''
+def get_fxswap(exp="1M", start="2010-01-01"):
+    '''만기, 수집 시작일을 입력하여 개별 스왑포인트 불러오기'''
     years = 365 * year
     now = pd.to_datetime(datetime.now()) + timedelta(days=3)
     today = now.strftime(format="%Y-%m-%d")
-    ago = "2010-01-01"  # 그냥 시작일 강제지정
 
     site = "http://www.smbs.biz"
-    path = f"/Exchange/FxSwap_xml.jsp?arr_value={exp}_{ago}_{today} HTTP/1.1"
+    path = f"/Exchange/FxSwap_xml.jsp?arr_value={exp}_{start}_{today} HTTP/1.1"
 
     header = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36",
@@ -83,16 +82,7 @@ def get_fxswap(exp="1M", year=1):
     return df
 
 
-# 1개월, 3개월만 수집
-df1 = get_fxswap(exp="1M")
-df3 = get_fxswap(exp="3M")
 
-mid = pd.concat([df1["Mid"], df3["Mid"]], axis=1)
-mid.columns = ["1M", "3M"]
-
-trans = pd.DataFrame()
-trans["1M"] = mid["1M"]
-trans["3M"] = mid["3M"] / 3
 
 ## 플로팅
 
@@ -105,6 +95,33 @@ st.write("""
 * **즉, 달러선물(1개월) 매도헷지시 장기적으로는 비용 우위에 있지만, 단기적 스왑포인트 역전 리스크에 노출**   
 * **스왑포인트 역전을 피해갈 수는 없을까?**    
 """)
+
+# 데이터 로딩 : 속도 개선 위해 피클로 저장-------------
+# 1개월, 3개월만 수집
+
+try:
+    trans = pd.read_pickle("trans.pkl")
+    
+    
+except:
+    df1 = get_fxswap(exp="1M")
+    df3 = get_fxswap(exp="3M")
+
+    mid = pd.concat([df1["Mid"], df3["Mid"]], axis=1)
+    mid.columns = ["1M", "3M"]
+
+    trans = pd.DataFrame()
+    trans["1M"] = mid["1M"]
+    trans["3M"] = mid["3M"] / 3
+    
+    pd.to_pickle("trans.pkl")
+
+
+
+#-------------------------------------------------------
+
+
+
 
 trans["spread"] = trans["1M"] - trans["3M"]
 fig_1 = trans["spread"].loc["2015" : ].plot.area(labels={
