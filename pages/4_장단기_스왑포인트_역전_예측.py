@@ -42,7 +42,7 @@ st.markdown("---")   # 구분 가로선
 # @st.cache()
 def get_fxswap(exp="1M", start="2010-01-01"):
     '''만기, 수집 시작일을 입력하여 개별 스왑포인트 불러오기'''
-    years = 365 * year
+
     now = pd.to_datetime(datetime.now()) + timedelta(days=3)
     today = now.strftime(format="%Y-%m-%d")
 
@@ -101,8 +101,8 @@ try:
     trans = pd.read_pickle("trans.pkl")
     
 except:
-    df1 = get_fxswap(exp="1M")
-    df3 = get_fxswap(exp="3M")
+    df1 = get_fxswap(exp="1M", start="2010-01-01")
+    df3 = get_fxswap(exp="3M", start="2010-01-01")
 
     mid = pd.concat([df1["Mid"], df3["Mid"]], axis=1)
     mid.columns = ["1M", "3M"]
