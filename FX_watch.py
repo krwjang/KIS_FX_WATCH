@@ -127,7 +127,7 @@ chg_fx = chgs.T
 # chg_fx.columns = ["1d", "2d", "5d", "20d", "60d"]
 chg_fx.columns = ["1d", "2d", "5d", "20d"]
 
-chg_fx.loc["DX-Y.NYB"] = chg_fx.loc["DX-Y.NYB"] * -1   # 달러인덱스는 부호 바꾸기
+chg_fx.loc["DX=F"] = chg_fx.loc["DX=F"] * -1   # 달러인덱스는 부호 바꾸기
 
 chg_fx.sort_values(by="20d", ascending=False, inplace=True)
 
