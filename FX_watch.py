@@ -40,7 +40,7 @@ st.markdown("---")   # 구분 가로선
 ## 사이드바
 st.sidebar.header("통화, 날짜 범위 지정")
 # name = st.sidebar.multiselect("비교 통화 (복수 선택 가능)", ['KRW=X','JPY=X', "EUR=X", "CNY=X", "AUD=X", "GBP=X", "CHF=X", "DX-Y.NYB"], ['KRW=X', "DX-Y.NYB"])
-name = st.sidebar.multiselect("비교 통화 (복수 선택 가능)", ['KRW=X','JPY=X', "EUR=X", "CNY=X", "AUD=X", "GBP=X", "CHF=X", "DX=Y"], ['KRW=X', "DX=Y"])
+name = st.sidebar.multiselect("비교 통화 (복수 선택 가능)", ['KRW=X','JPY=X', "EUR=X", "CNY=X", "AUD=X", "GBP=X", "CHF=X", "DX=F"], ['KRW=X', "DX=F"])
 
 # 사이드바에 불러올 데이터 기간 설정
 now = datetime.now().date()
