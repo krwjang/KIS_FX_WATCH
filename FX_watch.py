@@ -106,9 +106,10 @@ st.write("""
 
 code = ['KRW=X','JPY=X', "EUR=X", "CNY=X", "AUD=X", "GBP=X", "CHF=X", "DX=F"]
 
-chg_data = yf.download(code , start=end_date - timedelta(weeks=52), end=end_date)
+chg_data = yf.download(code , start=end_date - timedelta(weeks=5), end=end_date)
 chg_data = chg_data["Close"]
 chg_data.fillna(method='ffill', inplace=True)
+chg_data.fillna(method='bfill', inplace=True)
 
 chg_1d = (chg_data.iloc[-1] / chg_data.iloc[-2]  -1) * -1
 chg_2d = (chg_data.iloc[-1] / chg_data.iloc[-3]  -1) * -1
