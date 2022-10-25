@@ -131,7 +131,7 @@ fig_1.update_layout(height=600)
 st.plotly_chart(fig_1, use_container_width=True)
 
 ## 데이터 표
-st.caption("### 최근 100일 스왑포인트 데이터")
+st.caption("### 최근 100일 스왑포인트(Mid) 데이터")
 tail = mid.tail(100)
 tail["Date"] = pd.to_datetime(tail.index).strftime("%Y-%m-%d")
 tail.set_index("Date", inplace=True)
