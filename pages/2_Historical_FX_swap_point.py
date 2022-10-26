@@ -160,5 +160,5 @@ expander.markdown("""
     * (수급) 국내 선물환 매도 확대  → 스왑포인트 하락
 #
 **Tel:** 02-0000-0000 **| E-mail:** krwjang@gmail.com   
-장 백 차장 a.k.a. 킬리만자로의 표범
+OOO a.k.a. 킬리만자로의 표범
 """)
