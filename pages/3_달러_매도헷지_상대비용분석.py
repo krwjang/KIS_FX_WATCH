@@ -183,7 +183,7 @@ fig_2.update_layout(hovermode="x unified", showlegend=False)
 fig_2.layout.yaxis.tickformat = ',.2f'
 sp_mean = round(spread.mean(), 2)
 fig_2.add_hline(y=sp_mean, line_dash="dot",
-              annotation_text=f"평균 : {sp_mean}원", 
+              annotation_text=f"월평균 : {sp_mean}원", 
               annotation_position="top right",
               annotation_font_size=15,
               annotation_font_color="red"
