@@ -216,5 +216,5 @@ expander.markdown("""
 
 # 
 **Tel:** 02-0000-0000 **| E-mail:** krwjang@gmail.com   
-장 백 차장 a.k.a. 킬리만자로의 표범
+OOO a.k.a. 킬리만자로의 표범
 """)
