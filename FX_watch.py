@@ -86,7 +86,7 @@ col1.plotly_chart(fig_1, use_container_width=True)
 # 상관계수
 with col2:
     st.write("#")
-    st.caption("### 상관계수 (Correlation Coefficient)")
+    st.caption("### 상관계수")
     roll = st.selectbox("측정 단위 일수*", (2, 5, 10, 20), 1)
     pct_chg = data["Close"].pct_change()
     roll_pct = pct_chg.rolling(roll).sum()
