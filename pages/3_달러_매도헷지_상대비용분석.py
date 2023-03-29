@@ -135,9 +135,9 @@ fig_1.update_traces(hovertemplate=None)
 fig_1.update_layout(hovermode="x unified")
 fig_1.layout.yaxis.tickformat = ',.2f'
 fig_1.add_hline(y=0)
-fig_1.add_vrect(x0="2021-12-08", x1="2021-12-24", 
-              annotation_text="역전", annotation_position="top left",
-              fillcolor="orange", opacity=0.25, line_width=0)
+# fig_1.add_vrect(x0="2021-12-08", x1="2021-12-24", 
+#               annotation_text="역전", annotation_position="top left",
+#               fillcolor="orange", opacity=0.25, line_width=0)
 st.plotly_chart(fig_1, use_container_width=True)
 
 
