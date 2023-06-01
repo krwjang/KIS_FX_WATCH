@@ -5,5 +5,5 @@ yfinance
 lxml
 pandas
 plotly
-prophet>=1.1
+prophet
 streamlit
