@@ -210,8 +210,8 @@ st.write("""
 """)
 
 # forecast_lately = forecast[forecast['ds'] > "2020-01-01"]
-range_start = today + timedelta(days=-100)
-range_end = today + timedelta(days=+100)
+range_start = today - 100
+range_end = today + 100
 
 
 
