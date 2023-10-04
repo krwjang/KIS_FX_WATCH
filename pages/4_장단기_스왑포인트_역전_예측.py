@@ -210,10 +210,11 @@ st.write("""
 """)
 
 # forecast_lately = forecast[forecast['ds'] > "2020-01-01"]
-range_start = today - 100
-range_end = today + 100
 
-
+range_start = pd.to_datetime(datetime.now()) + timedelta(days=-100)
+range_start = now.strftime(format="%Y-%m-%d")
+range_end = pd.to_datetime(datetime.now()) + timedelta(days=-100)
+range_end = now.strftime(format="%Y-%m-%d")
 
 fig_3 = plot_plotly(m, forecast)
 fig_3.update_layout(xaxis_range=[range_start, range_end])
