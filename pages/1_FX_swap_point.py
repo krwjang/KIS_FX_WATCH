@@ -78,7 +78,7 @@ def get_fxswap(exp="1M", year=1, end="2022-01-01"):
     return df
 
 # 최소한의 기간만 불러오기
-year = 0.02
+year = 0.05
 now = datetime.now()
 
 ## 전체 기물별 스왑포인트 미드값 데이터프레임으로 반환 함수
@@ -102,7 +102,11 @@ mid = get_fxswaps(price_type="Mid")
 #-------------------------------------------------------------------------------
 
 ## 전광판 매트릭스
+
+
 sp_date = datetime.date(mid.index[-1])
+
+
 st.markdown("### FX스왑포인트*")   
 st.markdown(f"전일({sp_date}) 종가 기준 / 기물 / 중간값(Mid) / 전일대비 (단위: 원)")
 st.markdown("* 미래에 주고 받을 환율을 현재환율(Spot)에서 얼마나 가감(premium/discount)해서 거래 할 것인지 결정")
