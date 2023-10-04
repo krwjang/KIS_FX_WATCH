@@ -210,9 +210,13 @@ st.write("""
 """)
 
 # forecast_lately = forecast[forecast['ds'] > "2020-01-01"]
+range_start = today + timedelta(days=-100)
+range_end = today + timedelta(days=+100)
+
+
 
 fig_3 = plot_plotly(m, forecast)
-fig_3.update_layout(xaxis_range=['2021-01-01','2023-05-01'])
+fig_3.update_layout(xaxis_range=[range_start, range_end])
 fig_3.update_traces(hovertemplate=None)
 fig_3.update_layout(hovermode="x unified")
 
