@@ -160,7 +160,7 @@ st.write("""
 cal = trans[["spread"]].resample("M").mean()
 cal["year"] = cal.index.year
 cal["month"] = cal.index.month
-cal_table = cal.pivot("year", "month", "spread")
+cal_table = cal.pivot(index="year", columns="month", values = "spread")
 
 fig_5 = px.imshow(cal_table, text_auto=".2f", aspect="auto", color_continuous_scale='Bluered')
 fig_5.update_layout(height=600)
