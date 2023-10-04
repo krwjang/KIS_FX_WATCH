@@ -213,7 +213,7 @@ st.write("""
 
 range_start = pd.to_datetime(datetime.now()) + timedelta(days=-100)
 range_start = range_start.strftime(format="%Y-%m-%d")
-range_end = pd.to_datetime(datetime.now()) + timedelta(days=-100)
+range_end = pd.to_datetime(datetime.now()) + timedelta(days=+100)
 range_end = range_end.strftime(format="%Y-%m-%d")
 
 fig_3 = plot_plotly(m, forecast)
