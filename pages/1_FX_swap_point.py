@@ -82,7 +82,7 @@ year = 0.05
 now = datetime.now()
 
 ## 전체 기물별 스왑포인트 미드값 데이터프레임으로 반환 함수
-@st.cache_data(persist=True, max_entries=100)
+# @st.cache_data(persist=True, max_entries=100)
 def get_fxswaps(year=year, end=now, price_type="Mid"):
     df1 = get_fxswap(exp="1M", year=year, end=end)
     df2 = get_fxswap(exp="2M", year=year, end=end)
